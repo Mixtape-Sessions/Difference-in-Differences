@@ -1,0 +1,268 @@
+\documentclass{beamer}
+
+\input{preamble.tex}
+\usepackage{breqn} % Breaks lines
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\usepackage{pdfpages} % \includepdf
+
+\usepackage{listings} % R code
+\usepackage{verbatim} % verbatim
+
+% Video stuff
+\usepackage{media9}
+
+% packages for bibs and cites
+\usepackage{natbib}
+\usepackage{har2nat}
+\newcommand{\possessivecite}[1]{\citeauthor{#1}'s \citeyearpar{#1}}
+\usepackage{breakcites}
+\usepackage{alltt}
+
+% Setup math operators
+\DeclareMathOperator{\E}{E} \DeclareMathOperator{\tr}{tr} \DeclareMathOperator{\se}{se} \DeclareMathOperator{\I}{I} \DeclareMathOperator{\sign}{sign} \DeclareMathOperator{\supp}{supp} \DeclareMathOperator{\plim}{plim}
+\DeclareMathOperator*{\dlim}{\mathnormal{d}\mkern2mu-lim}
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+   \def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\newcommand*\colvec[1]{\begin{pmatrix}#1\end{pmatrix}}
+
+\newcommand{\myurlshort}[2]{\href{#1}{\textcolor{gray}{\textsf{#2}}}}
+
+
+\begin{document}
+
+\imageframe{./lecture_includes/mixtape_did_cover.png}
+
+
+% ---- Content ----
+
+\section{Basics}
+
+\subsection{Outline}
+
+\begin{frame}{Workshop outline}
+
+\begin{itemize}
+\item Introduction to DiD basics 
+	\begin{itemize}
+	\item Potential outcomes review
+	\item DiD formula
+	\item Covariates
+	\end{itemize}
+\item Differential timing
+	\begin{itemize}
+	\item Heterogeneity
+	\item TWFE bias in estimation of overall and dynamic ATT
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Workshop outline}
+
+\begin{itemize}
+\item Three types of solutions
+	\begin{itemize}
+	\item Aggregated group-time ATT
+	\item Stacked regression
+	\item Explicit Imputation
+	\end{itemize}
+\item Continuous treatments
+\item Fuzzy difference-in-differences
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{What is difference-in-differences (DiD)}
+
+\begin{itemize}
+\item DiD is a very old, relatively straightforward, intuitive research design
+\item A group of units are assigned some treatment and then compared to a group of units that weren't
+\item Early usage in several 19th century health policy debates 
+\item Brought into labor economics with Orley Ashenfelter (1978), LaLonde (1986), Card and Krueger (1994) 
+\item Now the most widely used quasi-experimental method
+\end{itemize}
+
+\end{frame}
+
+
+\imageframe{./lecture_includes/currie_2.jpg}
+
+\begin{frame}{Why an entire workshop on DiD?}
+
+\begin{itemize}
+\item \textbf{Research advantages}: DiD is often one of the only ways to study large social policies (e.g., decriminalized prostitution [Cunningham and Shah 2018])
+\item \textbf{Worrisome news}: Many new papers suggest canonical methods are biased, maybe severely biased
+\item \textbf{Good news}: Many new solutions and widely available code in both R and Stata
+\item \textbf{Econometrics}:  It's always fun to learn econometrics
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Pedagogy of the seminar}
+
+\begin{itemize}
+\item Emphasis on assumptions and authors
+\item It can feel like drinking from a firehose to learn so many papers
+\item I can't really advise you on how these are connected to one another, as that level of depth I'm still working on myself
+\end{itemize}
+
+\end{frame}
+
+
+\subsection{Potential outcomes}
+
+\begin{frame}{Potential outcomes review}
+
+\begin{itemize}
+\item DiD really can't be understood without committing to some common causality language
+\item Standard language is the potential outcomes model, sometimes called the Rubin-Neyman model
+\item Don't go over potential outcomes too fast or you'll miss all the fun
+\item Potential outcomes are thought experiments about worlds that never existed, but which \emph{could have}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Introduction to Counterfactuals and Causality}
+	
+	\begin{itemize}
+	\item Aliens come and orbit earth, see sick people in hospitals and conclude ``these `hospitals' are hurting people'' 
+	\item Motivated by anger and compassion, they kill the doctors to save the patients
+	\item Sounds stupid, but earthlings do this too - all the time
+	\item Let's look at the challenges of making causality synonymous with correlations
+	\end{itemize}		
+		
+\end{frame}
+
+\begin{frame}{\#1: Correlation and causality are very different concepts}
+
+These are not the same thing:
+
+		\begin{itemize}
+	\item Causal question: ``If a doctor puts a person with Covid on a ventilator (D), will her health (Y) improve?''
+	\item Correlation question:  $$\frac{Cov(D,Y)}{\sqrt{Var_D}\sqrt{{Var_Y}}}$$
+		\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{\#2: Coming first may not mean causality!}
+
+\begin{itemize}
+\item Every morning the rooster crows and then the sun rises
+\item If the feral cat had killed the rooster the sun would have still risen, so coming first must not be enough
+\item \emph{Post hoc ergo propter hoc}: ``after this, therefore, because of this''
+\end{itemize}
+
+\end{frame}
+
+
+\imageframe{./lecture_includes/scottboat.jpg}
+
+
+\begin{frame}{\#3: No correlation does not mean no causality!}
+
+\begin{itemize}
+	\item A sailor sails her sailboat across a lake
+	\item Wind blows, and she perfectly counters by turning the rudder
+	\item The same aliens observe from space and say ``Look at the way she's moving that rudder back and forth but going in a straight line.  That rudder is broken.'' So they send her a new rudder
+	\item They're wrong but why are they wrong? There is, after all, no correlation
+	\item Question: What if she had been moving the rudder by flipping coins?
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Potential outcomes notation}
+	
+	\begin{itemize}
+	\item Let the treatment be a binary variable: $$D_{i,t} =\begin{cases} 1 \text{ if hospitalized at time $t$} \\ 0 \text{ if not hospitalized at time $t$} \end{cases}$$where $i$ indexes an individual observation, such as a person
+
+	\item Potential outcomes: $$Y_{i,t}^j =\begin{cases} 1 \text{ health if hospitalized at time $t$} \\ 0 \text{ health if not hospitalized at time $t$} \end{cases}$$where $j$ indexes a counterfactual state of the world
+
+	\item I'll drop $t$ subscript, but note -- these are potential outcomes for the same person at the exact same moment in time
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Moving between worlds}
+
+\begin{itemize}
+\item A potential outcome $Y^1$ and a historical outcome $Y$ are neither conceptually nor notationally the same thing
+\item Potential outcomes are \emph{hypothetical} possibilities describing states of the world but historical outcomes actually occurred
+\item We choose among potential outcomes by selecting the treatment
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Important definitions}
+	\begin{block}{Definition 1: Individual treatment effect}
+	    The individual treatment effect,  $\delta_i$, equals $Y_i^1-Y_i^0$
+	\end{block}
+\end{frame}
+
+\begin{frame}{Important definitions}
+	\begin{block}{Definition 2: Average treatment effect (ATE)}
+        The average treatment effect is the population average of all $i$ individual treatment effects 
+        \begin{eqnarray*}
+        E[\delta_i]&=&E[Y_i^1-Y_i^0]\\
+        &=&E[Y^1_i] - E[Y^0_i]
+        \end{eqnarray*}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Important definitions}
+	\begin{block}{Definition 3: Switching equation}
+	    An individual's observed health outcomes, $Y$, is determined by treatment assignment, $D_i$, and corresponding potential outcomes:
+		      \begin{eqnarray*}
+	      Y_i& = D_iY^1_i+(1-D_i)Y^0_i& \\
+	      Y_i& = \begin{cases}
+	      		Y^1_i\text{ if }D_i=1 \\
+			Y^0_i\text{ if }D_i=0
+			\end{cases}
+	    		\end{eqnarray*}
+	\end{block}
+\end{frame}
+
+\begin{frame}{So what's the problem?}
+
+	\begin{block}{Definition 4: Fundamental problem of causal inference}	
+	If you need both potential outcomes to know causality with certainty, then since it is impossible to observe both $Y_i^1$ and $Y_i^0$ for the same individual, $\delta_i$, is \emph{unknowable}.
+	\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Conditional Average Treatment Effects}	
+	\begin{block}{Definition 5: Average Treatment Effect on the Treated (ATT)}
+	The average treatment effect on the treatment group is equal to the average treatment effect conditional on being a treatment group member:
+		\begin{eqnarray*}
+		E[\delta|D=1]&=&E[Y^1-Y^0|D=1] \nonumber \\
+		&=&E[Y^1|D=1]-E[Y^0|D=1]
+		\end{eqnarray*}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Conditional Average Treatment Effects}
+	\begin{block}{Definition 6: Average Treatment Effect on the Untreated (ATU)}
+	The average treatment effect on the untreated group is equal to the average treatment effect conditional on being untreated:
+		\begin{eqnarray*}
+		E[\delta|D=0]&=&E[Y^1-Y^0|D=0] \nonumber \\
+		&=&E[Y^1|D=0]-E[Y^0|D=0]
+		\end{eqnarray*}
+	\end{block}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+\end{document}

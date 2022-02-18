@@ -38,11 +38,10 @@
 
 % ---- Content ----
 
-\section{Basics}
+\section{Outline}
 
-\subsection{Outline}
 
-\begin{frame}{Workshop outline}
+\begin{frame}{Topics}
 
 \begin{itemize}
 \item Introduction to DiD basics 
@@ -53,7 +52,7 @@
 	\end{itemize}
 \item Differential timing
 	\begin{itemize}
-	\item Heterogeneity
+	\item Heterogeneity and the Bacon decomposition
 	\item TWFE bias in estimation of overall and dynamic ATT
 	\end{itemize}
 \end{itemize}
@@ -62,18 +61,28 @@
 
 \begin{frame}{Workshop outline}
 
-\begin{itemize}
-\item Three types of solutions
+Three types of solutions
 	\begin{itemize}
 	\item Aggregated group-time ATT
 	\item Stacked regression
 	\item Explicit Imputation
 	\end{itemize}
-\item Continuous treatments
-\item Fuzzy difference-in-differences
+
+\end{frame}
+
+\begin{frame}{Workshop outline}
+
+Synthetic control
+\begin{itemize}
+\item Canonical ADH model
+\item Multiple treated units (matrix completion with nuclear norm regularization)
+\item Imperfect fit
+\item Combining synthetic controls
 \end{itemize}
 
 \end{frame}
+
+\section{Topical elements of DiD}
 
 \begin{frame}{What is difference-in-differences (DiD)}
 
@@ -87,32 +96,183 @@
 
 \end{frame}
 
-
 \imageframe{./lecture_includes/currie_2.jpg}
 
-\begin{frame}{Why an entire workshop on DiD?}
+\begin{frame}{Natural experiments}
 
-\begin{itemize}
-\item \textbf{Research advantages}: DiD is often one of the only ways to study large social policies (e.g., decriminalized prostitution [Cunningham and Shah 2018])
-\item \textbf{Worrisome news}: Many new papers suggest canonical methods are biased, maybe severely biased
-\item \textbf{Good news}: Many new solutions and widely available code in both R and Stata
-\item \textbf{Econometrics}:  It's always fun to learn econometrics
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Pedagogy of the seminar}
-
-\begin{itemize}
-\item Emphasis on assumptions and authors
-\item It can feel like drinking from a firehose to learn so many papers
-\item I can't really advise you on how these are connected to one another, as that level of depth I'm still working on myself
-\end{itemize}
+\begin{quote}
+``A good way to do econometrics is to look for good natural experiments and use statistical methods that can tidy up the confounding factors that nature has not controlled for us.'' -- Daniel McFadden (Nobel Laureate recipient with Heckman 1992)
+\end{quote}
 
 \end{frame}
 
 
-\subsection{Potential outcomes}
+\imageframe{./lecture_includes/bumpersticker.jpeg}
+
+
+
+\begin{frame}{A Little History: Princeton 1970s and 1980s}
+
+\begin{itemize}
+\item What is a theoretical model in economics, particularly labor, and what role will it play in estimation?
+\item Empirical micro has been divided along two almost philosophical approaches to causal inference over the years
+	\begin{itemize}
+	\item \textbf{Model}: Causality is model-based.  It only exists within the framework of a theory that says ``X causes Y'' (e.g., Heckman)
+	\item \textbf{Design}: Causality is design-based.  No causality without \emph{physical} manipulation of a treatment $X$ (e.g., Rubin, Holland)
+	\end{itemize}
+\item This background is an interpretation based on speeches by David Card
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Economist's models}
+
+Economics models typically contain the following
+	\begin{itemize}
+	\item Preference functions (e.g., quasi concave utility), objective function (e.g., profit)
+	\item Constraints (e.g., time, budgets)
+	\item Endogenous choice variables (e.g., bundles of goods, output)
+	\item Equilibrium (e.g., first order conditions, Nash equilibrium)
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Three economic models within empirical micro}
+
+\begin{enumerate}
+\item \textbf{Approximating models}: Consumer demand, labor supply models (e.g., Mincer 1958; 1974)
+	\begin{itemize}
+	\item Theory implies $y_i=f_i(x_i)$ with restrictions on $f_i$ (e.g., concavity)
+	\item Researcher estimates a simpler version $$y_i = \alpha + x_i \beta + \varepsilon_i$$
+	\end{itemize}
+\item \textbf{Exact models}: Models gives us all causes (``complete DGP'')
+	\begin{itemize}
+	\item Utility, heterogenous taste, complete demand
+	\item Estimate model parameters and distribution of heterogeneity
+	\item Functional form, useful for welfare analysis
+	\end{itemize}
+\item \textbf{Working model}: Design based approaches: No precise model was used or relied for estimation, though it may guide the questions. Princeton industrial relations and labor group, 1970s and 1980s
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Characteristics of design}
+
+\begin{itemize}
+\item Focus is on ``physical manipulation of treatments'', much like Fisher RCTs and randomization (``No causality without manipulation'' -- Rubin, Holland)
+\item Without the explicit role of the model in identification, topics open up 
+\item Part of the dominance of design based approaches is the ability to study almost anything in applied micro so long as physical manipulation of treatments are our focus
+\item Model-based approaches tend to, on the other hand, be much more closely married to neoclassical topics because you need the neoclassical model for identification
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Causality and labor economics}
+
+Keep in mind the sweep of the 20th century econometric approaches to identifying ``causal effects''
+\begin{itemize}
+\item \textbf{Mid-century}: Macro and linear systems of equations, identification problems 
+\item \textbf{1970s}: Micro data shows up, McFadden's logit, Heckman's selection model
+\item \textbf{1980s}: Econometric critiques like the Lucas critique, Leamer ``specification searching'', LaLonde (1985) critiques program evaluation, Lewis dismisses IV and Heckit models
+\item \textbf{1980s/1990s}: Design emerges within the Princeton labor group, randomized instruments, ``clever'' natural experiments, ``plausibly exogenous'', RDD, difference-in-differences
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Princeton industrial relations group and ``design''}
+
+\begin{itemize}
+\item Backdrop is 1970s rising inequality and poverty, returns to education (Katz and Murphy, others)
+\item Princeton becomes ground zero for design: Albert Rees brings in micro data; advises Orley Ashenfelter
+\item Chicago and others focus on model driven approaches (Heckman)
+\item Ashenfelter focuses on job trainings program, likes randomization a lot
+\item Extensive mentoring: Advising: LaLonde, Angrist, Currie, Levine, Pischke, and on and on
+\item Other faculty: Alan Krueger, Guido Imbens, Don Rubin
+\item Adoption of potential outcomes (Krueger notes the NEJM and medical concepts)
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Credibility revolution}
+
+\begin{itemize}
+\item Design approach tends to crowd out the model based approach in the applied micro fields like labor, health, development with exceptions (Wolpin, Rust)
+\item Nobel Prizes for experiments, RCTs and causal inference (Vernon Smith, Bannerjee, Duflo, Kremer, Card, Angrist, Imbens)
+\item Structural wins too though (Deaton) so the debate still rages (see Nancy Cartwright and Angus Deaton work)
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{2021 Nobel Prize}
+
+Design-based identification goes to Card, Angrist, Imbens, Krueger, Rubin (three of whom win the Nobel Prize)
+\begin{itemize}
+\item David Card for empirical labor (perhaps greatest labor economist of his generation with Krueger, RIP)
+\item Josh Angrist and Guido Imbens for causal inference (specifically 1990s papers on IV)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Design contributions}
+
+What are the broad contributions of the design approach to causal inference?
+
+\begin{itemize}
+\item Counterfactuals and causality; research design outlines an ``explicit counterfactual'', randomization is best, credible instruments are second best
+\item Substantive specification tests: randomization tests in RCTs like balance across covariates, pre-treatment comparisons, event studies, falsification
+\item Here we see the event study in DiD too
+\item Data quality, replication, data warehouses, journals requiring programs, pre-registration of RCTs
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Design today}
+
+Think of identification in design approaches in two ways:
+
+	\begin{enumerate}
+	\item \textbf{Design-design}: Independence (i.e., randomization). RCT, IV and matching all have an ``independence'' assumption
+	\item \textbf{Design-model}: Structural (i.e., parallel trends, factor models, smoothness). RDD, DiD, synthetic control
+	\end{enumerate}
+	
+The class largely focuses on the design-model, not the design-design
+
+
+\end{frame}
+
+
+\section{Workshop}
+
+\begin{frame}{Why an entire workshop on DiD (and synthetic control)?}
+
+\begin{itemize}
+\item \textbf{Research advantages}: DiD and synthetic control are often one of the only ways to study large social policies (e.g., Medicaid, minimum wages)
+\item \textbf{Researcher anxiety}: As you may heard, difference-in-differences (and synth) has received considerable scrutiny from econometricians who have shown both problems with old estimators and proposed new ones
+\item \textbf{A New Hope}: These solutions have a lot of similarities and are now widely available code in both R and Stata
+\item \textbf{Bad news}:  Without barriers to entry, econometricians will continue writing did and synth so long as there are profits, so expect more DiD and synth for a while
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Pedagogy of the workshop}
+
+\begin{itemize}
+\item My style of teaching DiD and synthetic control is to teach \emph{papers}, not synthesis
+\item As a result, it can feel like drinking from a firehose to learn so many papers
+\item Some topics I can't cover, particularly if they are brand new, but I will do my best to give you what I consider to be a selective discussion that I think is important
+\item Jon Roth will be teaching a June 10th 1-day workshop on ``advanced DiD'' if you want to follow up this course with even more by one of the economtricians writing in this area
+\end{itemize}
+
+\end{frame}
+
+
+\section{Potential outcomes}
 
 \begin{frame}{Potential outcomes review}
 
@@ -244,20 +404,83 @@ These are not the same thing:
 		&=&E[Y^1|D=1]-E[Y^0|D=1]
 		\end{eqnarray*}
 	\end{block}
+	
+	\bigskip
+	
+As we will see, DiD methods \emph{only} identify the ATT, not the ATE
+	
 \end{frame}
 
-\begin{frame}{Conditional Average Treatment Effects}
-	\begin{block}{Definition 6: Average Treatment Effect on the Untreated (ATU)}
-	The average treatment effect on the untreated group is equal to the average treatment effect conditional on being untreated:
-		\begin{eqnarray*}
-		E[\delta|D=0]&=&E[Y^1-Y^0|D=0] \nonumber \\
-		&=&E[Y^1|D=0]-E[Y^0|D=0]
-		\end{eqnarray*}
-	\end{block}
+\begin{frame}{SUTVA}
+
+\begin{itemize}
+\item SUTVA stands for ``stable unit treatment value assumption'' and is a unique representation of the nature of a causal effect in the potential outcomes Rubin-Neyman model
+\item It concerns the stability of the underlying treatment effects and has a few things relevant to our analysis in this workshop
+\item These largely concern spillovers, anticipation and hidden variation in treatment -- all of which can be threatened in our designs
+\end{itemize}
 
 \end{frame}
 
+\begin{frame}{SUTVA I: No Spillovers}
 
+\begin{itemize}
+\item ``In many situations it may be reasonable to assume that treatments applied to one unit do not affect the outcome for another unit.'' (Imbens and Rubin 2015)
+\item Consider a situation where a state adopts ``Right to Work'' union policies that affect firms' ability to unionize
+\item If the policy results in changes in firm location in the contiguous untreated county, it means the untreated county may be treated
+\item Isn't a problem necessarily -- after all, it just means the treatment has spillovers next door and that may be \emph{be the treatment}.
+\item But it does have implications for how you define the treatment and who is used as a comparison (maybe can't use the neighbor as the control)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{SUTVA II: No Anticipation}
+
+\begin{itemize}
+\item Spillovers can occur in space, but also time -- especially challenging with forward looking economic agents (i.e., the ones we assume in economics and other social sciences)
+\item If a firm knows that a law has passed, but not enforced, that \emph{information about the future costs/benefits} could already lead to entry, exit or marginal adjustments affecting outcomes
+\item DiD uses as its comparison a baseline, and you want that baseline to be untreated
+\item Some of this can be checked by rolling back the baseline to check 
+\item Again, be careful about control groups both when the ``pre'' is chosen as well as the ``across''
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{SUTVA III: No Hidden Variation in Treatment}
+
+\begin{itemize}
+\item Less widely known element of the SUTVA assumption is homogenous \emph{dosages}
+\item Note that the potential outcomes are $Y^1$ and $Y^0$ -- the ones and zeroes in other words have a presumably homogenous meaning across units (i.e., not $Y^{0.5}$ and $Y^1$)
+\item Aspirin example -- one person gets an aspirin that ``works'' while another person gets one that is messed up and doesn't work
+\item Laws are often grouped that may not be exactly the same
+\item Not necessarily a problem -- you may have to consider multiple treatments -- but these may pose some challenges according to newer work
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{SUTVA IV: Rising Cost and General Equilibrium}
+
+\begin{itemize}
+
+\item Texas has luck with an early childhood program which raises longrun math test scores for 4th graders
+\item Biden and US legislators want to copy it
+\item But the program doesn't easily scale because there aren't enough teachers and we have to hire deeper and deeper into higher cost or lower quality teachers
+\item It's a kind of hidden variation in treatment associated with rising cost industries
+\item Similar types of issues if in general equilibrium what is observed in partial equilibrium is not the same
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Let's begin with DiD}
+
+\begin{itemize}
+\item With all this out of the way, let's dig into the DiD material
+\item We will start with the simplest situation using simple difference in means without covariates
+\item We will then move into OLS with covariates
+\item And then move into alternatives to OLS when we have covariates
+\item Later we go into the more advanced material (e.g., differential timing, continuous treatments)
+\end{itemize}
+
+\end{frame}
 
 
 

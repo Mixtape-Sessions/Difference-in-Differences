@@ -39,14 +39,55 @@
 % ---- Content ----
 
 
-\section{Covariates}
+\section{Basic DiD}
 
 \subsection{Simple case, no covariates}
 
-\begin{frame}{John Snow and cholera}
+\begin{frame}{Introducing DiD}
 
 \begin{itemize}
-\item John Snow, epidemiologist in 19th century, usually credited with first use of DiD
+\item DiD in its modern form dates back to Orley Ashenfelter and David Card at Princeton in the late 70s and mid 80s (Card says they invent the term in mid 1980s)
+\item Unclear when key identifying assumptions like parallel trends are worked out (as originally there is no potential outcomes in play)
+\item Attractive elements included natural experimentation, panel data, and did not require randomization
+\item US context may also have been such that it had a lot of upside
+\item But let's start at the beginning with story and example
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Miasma Debates}
+
+\begin{itemize}
+
+\item Health policy debates in the 19th century is where we DiD pop up, mainly as a matter of logical deduction 
+\item Dominant disease theory in 19th century was \emph{miasma} -- disease caused by smelly vapor
+\item Helped fuel a lot of sanitation reforms, but inadequate for explaining many diseases 
+\item ``All models are wrong but some are useful'' -- George Box)
+\item Keep in mind -- microorganisms would not be identified until much later, partly caused by poor resolution in microscopes (Freedman 2007)
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Miasma I: Ignaz Semmelweis}
+
+\begin{itemize}
+\item 1840s, Vienna maternity wards had high postpartum infections in one wing compared to other wings
+\item One division had doctors and trainee doctors, but another had midwives and trainee midwives
+\item Ignaz Semmelweis notes the difference in 1841 when hospitals moved to ``anatomical'' training involving cadavers (Jakeila lecture 4, DiD)
+\item New training happens to one but not the other and Semmelweis thinks the mortality is caused by working with cadavers
+\item Proposes washing hands with chlorine in 1847 in the midwives' wing and uses a DiD design of pre and post
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Miasma II: John Snow and cholera}
+
+\begin{itemize}
+\item More well known involves John Snow, an important inventor of a device that delivered chloroform to patients for surgery (major advancement in anesthesia)
+\item H was also an amateur epidemiologist in 19th century, and these days it's more common to hear him be named the father of DiD
 \item Believed cholera was spread through the Thames water supply which contradicted dominant theory about ``dirty air'' transmission
 \item Grand experiment: Lambeth moves its pipe between 1849 and 1854; Southwark and Vauxhall delay
 \item How can he use this event to test his hypothesis? Three ways: simple comparisons, interrupted time series of the difference in differences (DiD)
@@ -80,7 +121,7 @@
 
 \begin{eqnarray*}
 \widehat{\delta}_{cs} = D + (L-SV)
-\end{eqnarray*}
+\end{eqnarray*}This is selection bias with respect to $Y^0$.
 
 \end{frame}
 
@@ -104,7 +145,7 @@
 
 \begin{eqnarray*}
 \widehat{\delta}_{its} = D + T
-\end{eqnarray*}
+\end{eqnarray*}This is selection bias with respect to time, $T \neq 0$
 
 
 \end{frame}
@@ -136,14 +177,31 @@
 
 \begin{eqnarray*}
 \widehat{\delta}_{did} = D + (T_L - T_{SV})
-\end{eqnarray*}
+\end{eqnarray*}This is selection bias with respect to $Y^0$ trends
+
+\end{frame}
+
+\begin{frame}{DiD equation, 2x2 and parallel trends}
+
+\begin{itemize}
+\item I tend to group DiD based on whether the design will be based on two things:
+	\begin{enumerate}
+	\item \textbf{Parallel trends}: $T_L = T_{SV}$ for identification
+	\item \textbf{DiD equation}: (After minus before for treated) - (After minus before for comparison group)
+	\end{enumerate}
+\item Goodman-Bacon (2018; 2021) calls the DiD equation the ``2x2'' and I will too sometimes, but they mean the same thing
+\item Both tend to show up repeatedly in each of the methods we examine in this workshop
+\item It's how I differentiate DiD from others like the broadly defined panel estimators
+\end{itemize}
 
 \end{frame}
 
 
 
 
-\begin{frame}{Sample averages}
+
+
+\begin{frame}{DiD equation with sample averages}
 
 \begin{eqnarray*}
 \widehat{\delta}^{2x2}_{kU} = \bigg ( \overline{y}_k^{post(k)} - \overline{y}_k^{pre(k)} \bigg ) - \bigg ( \overline{y}_U^{post(k)} - \overline{y}_U^{pre(k)} \bigg )
@@ -151,7 +209,7 @@
 
 \end{frame}
 
-\begin{frame}{Population expectations}
+\begin{frame}{DiD equation with population expectations}
 
 \begin{eqnarray*}
 \widehat{\delta}^{2x2}_{kU} = \bigg ( E[Y_k|Post] - E[Y_k|Pre] \bigg ) - \bigg ( E[Y_U | Post ] - E[ Y_U | Pre] \bigg) \\
@@ -176,14 +234,62 @@
 && + \bigg [  \underbrace{\textcolor{red}{E[Y^0_k | Post]} - E[Y^0_k | Pre] \bigg ] - \bigg [ E[Y^0_U | Post] - E[Y_U^0 | Pre] }_{\mathclap{\text{Non-parallel trends bias in 2x2 case}}} \bigg ]
 \end{eqnarray*}
 
+\bigskip
+
+Note that this is what we saw in the table earlier -- $T_L \neq T_{SV}$ and it's not measurable because $T_L$ is confounded by the ATT itself
+
 
 \end{frame}
 
+\begin{frame}{Similar role $Y^0$ in selection bias}
+
+Cross-sectional comparisons and selection bias with respect to $Y^0$
+
+\begin{eqnarray*}
+E[Y|D=1] - E[Y|D=0] &=& ATE + E[Y^0|D=1] - E[Y^0|D=0] \\
+&=& + (1- \pi)(ATT-ATU)
+\end{eqnarray*}
+
+DiD comparisons and selection bias with respect to $Y^0$
+
+\begin{eqnarray*}
+\widehat{\delta}^{2x2}_{kU} &=& \underbrace{E[Y^1_k | Post] - \textcolor{red}{E[Y^0_k | Post]}}_{\mathclap{\text{ATT}}} \\
+&& + \bigg [  \underbrace{\textcolor{red}{E[Y^0_k | Post]} - E[Y^0_k | Pre] \bigg ] - \bigg [ E[Y^0_U | Post] - E[Y_U^0 | Pre] }_{\mathclap{\text{Non-parallel trends bias in 2x2 case}}} \bigg ]
+\end{eqnarray*}
+
+\end{frame}
+
+
+\begin{frame}{Independence}
+	
+
+	\begin{block}{Independence assumption}
+	Treatment is assigned to a population independent of that population's potential outcomes  $$(Y^0,Y^1)\independent{D}$$
+	\end{block}
+This is random or quasi-random assignment and ensures mean potential outcomes for the treatment group and control group are the same.  Also ensures other variables are distributed the same for a large sample.
+		\begin{eqnarray*}
+			E[Y^0|D=1] &=& E[Y^0 | D=0] \\
+			E[Y^1|D=1] &=& E[Y^1 | D=0] 
+		\end{eqnarray*}
+\end{frame}
+
+\begin{frame}{Non-randomization identification}
+
+\begin{itemize}
+\item But we won't use randomization for identification with DiD
+\item This is one of the appeals of DiD -- we aren't using physical randomization
+\item But note, independence works and gives confidence ``because we know how the science works'' -- Don Rubin
+\item There is no such ``science'' with parallel trends, so we tend to focus on a variety of ad hoc tests like event studies for confidence
+\item But otherwise, it's actually quite similar, and shows that identification does not always depend on randomization
+\end{itemize}
+
+\end{frame}
 
 
 \begin{frame}{OLS Specification}
 	
 	\begin{itemize}
+	\item Simple difference in means can be computed with OLS, too, but not as easy to explicitly see the parallel trends so I'll show you graphically
 	\item Properly specified OLS model will also identify the ATT when there is only two groups and no covariates
 	\item Often preferred because
 		\begin{itemize}
@@ -191,11 +297,23 @@
 		\item Easy to calculate the standard errors
 		\item Easy to include multiple periods
 		\end{itemize}
-	\item But some issues emerge with differential timing, covariates and continuous treatments
+	\item But some issues emerge with differential timing, time varying covariates and continuous treatments
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Regression DiD - Card and Krueger}
+\begin{frame}{Minimum wages}
+
+\begin{itemize}
+\item Card and Krueger (1994) have a famous study estimating causal effect (ATT) of minimum wages on employment
+\item Exploited a policy change in New Jersey between February and November in mid-1990s where minimum wage was increased
+\item Neighbor PA did not (remember no spillover assumption)
+\item Found no effect on minimum wage; if anything it was the opposite effect
+\item Caused some feuding with Buchanan saying people who believed it enough to adopt it were ``camp following whores'' (Wall Street Journal op-ed during Clinton admin)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{OLS specification of the DiD equation}
 	
 	\begin{itemize}
 	\item The equivalent regression includes time and group fixed effects:$$Y_{its} = \alpha + \gamma NJ_s + \lambda d_t + \delta (NJ \times d)_{st} + \varepsilon_{its}$$
@@ -227,7 +345,7 @@
 \begin{frame}{OLS with twoway fixed effects}
 
 
-Under parallel trends, OLS estimates the ATT. Researchers often will use OLS with time-varying covariates, but this is not advised as it is only unbiased under more restrictive assumptions which we discuss next
+Under parallel trends, OLS estimates the ATT. Researchers often will use OLS with time-varying covariates, but this is not advised as it is only unbiased under more restrictive assumptions which we discuss next (though see new working paper by Cattaneo, et al. 2022 on controlling for time-varying covariates).
 
 
 
@@ -237,15 +355,6 @@ Under parallel trends, OLS estimates the ATT. Researchers often will use OLS wit
 \subsection{IPW}
 
 
-\begin{frame}
-
-
-\bigskip
-\begin{quote}
-``A good way to do econometrics is to look for good natural experiments \emph{and} use statistical methods that can tidy up the confounding factors that nature has not controlled for us. -- Daniel McFadden
-\end{quote}
-
-\end{frame}
 
 
 \begin{frame}{Inverse probability weighting DiD}
@@ -254,7 +363,6 @@ Under parallel trends, OLS estimates the ATT. Researchers often will use OLS wit
 \item Abadie (2005) proposed a DiD estimator that could incorporate covariates and get an unbiased estimate of the ATT
 \item Researcher needs treatment and comparison group observed before and after treatment
 \item If treatment group units are selected based on their (observed) covariates, then baseline covariates are also needed 
-\item No randomization is needed;  just another version of parallel trends  called conditional parallel trends
 \end{itemize}
 
 \end{frame}
@@ -308,7 +416,21 @@ Kind of common for this propensity score literature to only have two assumptions
 
 \end{frame}
 
-\begin{frame}{Trimming the propensity score to get common support}
+\begin{frame}{Common support}
+
+As we are identifying the ATT, we only need common support with respect to treated units
+
+\bigskip
+
+Your identify assumptions are always with respect to the missing covariates in other words and for the ATT, you are missing $Y^0$ for the treatment group
+
+\bigskip
+
+If we were estimating ATU, we'd be missing $Y^1$ for controls and need common support ($Y$ in treatment for all ranges of control), and for ATE we'd need both
+
+\end{frame}
+
+\begin{frame}{Visualizing propensity score to get common support}
 
 	\begin{figure}
 	\includegraphics[scale=0.05]{./lecture_includes/common_support_abadie.png}
@@ -329,7 +451,6 @@ Abadie's estimator
 E\bigg [ \frac{Y_t - Y_b}{Pr(D_t=1)} \times \frac{D_t - Pr(D=1|X_b)}{1-Pr(D=1|X_b)} \bigg ]
 \end{equation}
 
-These are also using the ``Hajek'' (non-normalized) weights from the inverse probability weighting literature
 
 \end{frame}
 
@@ -362,23 +483,25 @@ It's common to hear people say that we don't know the propensity score; we can o
 \end{frame}
 
 
-\begin{frame}{Stata}
+\begin{frame}{Commentary on paper's influence}
 
-Stata command is called absdid
-
-\bigskip
-
-You need treatment (varname), $X$ variables (can be a list), the order in which the variables occur (weird, but results change if the order changes), and the exact estimator (LPM or logit)
+Abadie has a great year in 2003: synthetic control in AER, semiparametric DiD in Restud, semiparametric IV (his JMP) in JoE
 
 \bigskip
 
-Why not try it yourselves using the LaLonde NSW job trainings program data?
+Semiparametric DiD has over 2,000 cites
 
 \bigskip
 
-\url{https://github.com/scunning1975/mixtape/raw/master/nsw_mixtape.dta}
+But I'm not sure it was widely adopted by the \emph{applied} community. It seems like the \emph{applied community} starts paying attention to the econometric contributions much later, and Abadie (2003) is gaining a renaissance at the moment because of the next paper
+
+\bigskip
+
+Nonetheless, there is code in Stata called -absdid- but an unsatisfying part of the semiparametric piece is that the results change with respect to not just the estimation method (OLS or logit), but also with respect to the order in which the covariates appear
 
 \end{frame}
+
+
 
 \subsection{DRDiD}
 
@@ -397,11 +520,24 @@ Why not try it yourselves using the LaLonde NSW job trainings program data?
 
 \end{frame}
 
+\begin{frame}{Patterns in econometrician reasoning}
+
+\begin{enumerate}
+\item Define the target parameter first (as opposed to writing down model first)
+\item Identification (e.g., parallel trends)
+\item Estimation
+\item Aggregation
+\item Inference
+\end{enumerate}
+
+\end{frame}
 
 
+\begin{frame}{Defining the target parameter}
 
-\begin{frame}{Defining the target parameter -- the ATT}
+Major part of the new econometrics is to always start with the target parameter and build to it using estimation and identification that ``works''
 
+\bigskip
 
 \begin{eqnarray*}
 \delta = E[Y^1_{it} - Y^0_{it} | D_i=1]
@@ -409,17 +545,21 @@ Why not try it yourselves using the LaLonde NSW job trainings program data?
 
 \end{frame}
 
-\begin{frame}{Basic assumptions of DiD}
+\begin{frame}{Identification assumptions I: Data}
 
 Assumption 1: Assume panel data or repeated cross-sectional data
 
 \bigskip
 
-Handling repeated cross-sectional data is hairy, and so I've chosen to focus on the panel data for this talk, but results are similar for repeated cross sections
+Handling repeated cross-sectional data is possible but assumes modularity which is a kind of stability assumption, but I'll use panel representation. 
+
+\bigskip
+
+Cross-sections will be potentially violated with changing sample compositions (see my Mixtape on the Napster example). 
 
 \end{frame}
 
-\begin{frame}{Basic assumptions of DD}
+\begin{frame}{Identification assumptions II: Modification to parallel trends}
 
 Assumption 2: Conditional parallel trends
 
@@ -433,9 +573,9 @@ E[Y_1^0 - Y_0^0 | X, D=1] = E[Y^0_1 - Y^0_0 | X, D=0]
 
 \end{frame}
 
-\begin{frame}{Basic assumptions of DD}
+\begin{frame}{Identification assumptions III: Common support}
 
-Assumption 3: Common support or overlap
+Assumption 3: Common support
 
 \bigskip
 
@@ -443,7 +583,7 @@ For some $e>0$, the probability of being in the treatment group is greater than 
 
 \bigskip
 
-Intuition of assumption 3: Called overlap or common support. Means there is at least a small fraction of the population that is treated and that for every value of the covariates $X$ there is at least a small chance that the unit is not treated. It's called common support when it's a propensity score but it's just about the distribution of treatment and control across values of $X$. 
+Intuition of assumption 3: Called overlap or common support. Means there is at least a small fraction of the population that is treated and that for every value of the covariates $X$ there is at least a small chance that the unit is not treated. It's called common support when it's a propensity score but it's just about the distribution of treatment and control across values of $X$. Very common when dealing with covariate comparisons as otherwise you're extrapolating (curse of dimensionality)
 
 \end{frame}
 
@@ -469,6 +609,23 @@ This is the Heckman, et al. (1997) approach where the outcome evolution is model
 \end{eqnarray*}
 
 where $\overline{Y}$ is the sample average of $Y$ among units in the treatment group at time $t$ and $\widehat{\mu}(X)$ is an estimator of the true, but unknown, $m_{d,t}(X)$ which is by definition equal to $E[Y_t|D=d,X=x]$.
+
+\end{frame}
+
+
+
+
+\begin{frame}{Outcome regression}
+
+\begin{eqnarray*}
+\widehat{\delta}^{OR} = \overline{Y}_{1,1} - \bigg [ \overline{Y}_{1,0} + \frac{1}{n^T} \sum_{i|D_i=1} ( \widehat{\mu}_{0,1}(X_i) - \widehat{\mu}_{0,0}(X_i)) \bigg ]
+\end{eqnarray*}
+
+\begin{enumerate}
+\item Regress changes $\Delta Y$ on $X$ among untreated groups using baseline covariates only
+\item Get fitted values of the regression using all $X$ from $D=1$ only.  Average those
+\item Calculate change in this fitted $Y$ among treated with the average fitted values
+\end{enumerate}
 
 \end{frame}
 
@@ -539,28 +696,49 @@ Conditional parallel trends implies
 &&E[Y^0_{1}|D=1,X] - E[Y^0_{0}|D=1,X]= E[Y^0_{1}|D=0,X] - E[Y^0_{0}|D=0,X] \\
 &&E[Y^0_{1}|D=1,X] = E[Y^0_{0}|D=1,X] + E[Y^0_{1}|D=0,X] - E[Y^0_{0}|D=0,X] \\
 &&E[Y^0_{1}|D=1,X] = E[Y_{0}|D=1,X] + E[Y_{1}|D=0,X] - E[Y_{0}|D=0,X] \\
-\end{eqnarray*}\normalsize Last line from the switching equation. This gives us:
-
-\begin{eqnarray*}
-E[Y^0_{1}|D=1,X] = \alpha_1  + \alpha_2 + \alpha_3 + \theta X
 \end{eqnarray*}
 
 
 \end{frame}
 
+\begin{frame}{Switching equation substitution}
+
+Last line from the switching equation. This gives us:
+
+\begin{eqnarray*}
+E[Y^0_{1}|D=1,X] = \alpha_1  + \alpha_2 + \alpha_3 + \theta X
+\end{eqnarray*}
+
+Now compare this with our earlier $Y^1$ expression
+
+\begin{eqnarray*}
+E[Y^1_1|D=1,X] = \alpha_1 + \alpha_2 + \alpha_3 + \delta + \theta X
+\end{eqnarray*}
+
+We can define our target parameter, the ATT, now in terms of the fixed effects representation
+
+\end{frame}
+
+
 \begin{frame}{Collecting terms}
 
+TWFE representation of our conditional expectations of the potential outcomes
 \begin{eqnarray*}
 &&E[Y^1_1|D=1,X] = \alpha_1 + \alpha_2 + \alpha_3 + \delta + \theta_1 X \\
 &&E[Y^0_{1}|D=1,X] = \alpha_1  + \alpha_2 + \alpha_3 + \theta_2 X \\
-&&E[Y^1_1|D=1,X]  - E[Y^0_{1}|D=1,X]  \\
+\end{eqnarray*}
+
+Substitute these into our target parameter
+
+\begin{eqnarray*}
+ATT &=& E[Y^1_1|D=1,X]  - E[Y^0_{1}|D=1,X]   \\
 &&=(\alpha_1 + \alpha_2 + \alpha_3 + \delta + \theta_1 X) - ( \alpha_1  + \alpha_2 + \alpha_3 + \theta_2 X )\\
 &&=\delta + (\theta_1 X - \theta_2 X)
 \end{eqnarray*}
 
 \bigskip
 
-By allowing for the possibility that $\theta_1 X \neq \theta_2 X$, we open up the possibility of bias from TWFE which is zero under three additional assumptions.
+What if $\theta_1 X \neq \theta_2 X$?
 
 \end{frame}
 

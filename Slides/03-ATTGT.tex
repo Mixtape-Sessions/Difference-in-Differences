@@ -1162,7 +1162,7 @@ Pr(E_i=e|E_i \in [-l,T-l])
 
 \begin{itemize}
 \item \textbf{Stata}: eventstudyinteract (can be installed from ssc)
-\item \textbf{R}: fixest (see \url{https://asjadnaqvi.github.io/DiD/docs/02_R/})
+\item \textbf{R}: fixest with subab() option (see \url{https://lrberge.github.io/fixest/reference/sunab.html/})
 \end{itemize}
 
 
@@ -1173,9 +1173,9 @@ Pr(E_i=e|E_i \in [-l,T-l])
 \begin{itemize}
 \item Bacon shows the TWFE coefficient on the static parameter is ``contaminated'' by other periods leads and lags
 \item Three strong assumptions needed for TWFE to be unbiased: parallel trends, no anticipation, and treatment homogeneity
-\item Three step interaction-weighted estimator is an alternative
-\item Doesn't restrict to treatment profile homogeneity 
-\item Callaway and Sant'Anna (2020) and Sun and Abraham (2020) use different controls, but under certain situations (no covariates, never treated) they are the same (``nested'')
+\item SA doesn't restrict to treatment profile homogeneity, though; very similar to CS
+\item SA is a three step interaction-weighted estimator 
+\item Callaway and Sant'Anna (2020) uses not-yet-treated or never treated, but Sun and Abraham (2020) uses last-treated or never treated
 \end{itemize}
 
 \end{frame}
@@ -1297,7 +1297,6 @@ Assuming SUTVA, no anticipation and the strong PT, then let $\beta$ be the TWFE 
 \begin{itemize}
 \item dCdH propose an alternative that doesn't have the problems of TWFE -- both avoiding negative weights and improving interpretability
 \item Recall, their model can handle reversible treatments
-\item The focus will be 
 
 \end{itemize}
 

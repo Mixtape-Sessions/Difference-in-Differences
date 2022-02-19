@@ -40,7 +40,7 @@
 
 \section{Weighted Group-Time ATT}
 
-\subsection{Bacon}
+\subsection{Bacon decomposition}
 
 \begin{frame}{Differential timing}
 
@@ -487,27 +487,7 @@ Let's now review a simulation in Stata which can be downloaded from my github re
 \end{frame}
 
 
-\begin{frame}{Pedro Sant'Anna for the win}
 
-\begin{itemize}
-\item Now a word from a good friend -- Pedro Sant'Anna.  Legend!
-\item He'll be discussing deChaisemartin and D'Haultfoeiller (2020) because:
-	\begin{itemize}
-	\item He's a good guy
-	\item He's a great presenter
-	\item I fell behind
-	\end{itemize}
-\end{itemize}
-
-\end{frame}
-
-\subsection{dCH}
-
-\begin{frame}{de Chaisemartin and D'Haultfoeulle}
-
-Now a word from our sponsor (Pedro San'tAnna)
-
-\end{frame}
 
 \subsection{SA}
 
@@ -1090,6 +1070,122 @@ Pr(E_i=e|E_i \in [-l,T-l])
 
 
 
+\subsection{dCH}
+
+\begin{frame}{de Chaisemartin and D'Haultfoeulle 2020}
+
+de Chaisemartin and D'Haultfouelle 2020 (dCdH) is different from the other papers in several ways
+	\begin{itemize}
+	\item Like SA, it's a diagnosis and a cure
+	\item TWFE decomposition shows coefficient a weighted average of underlying treatment effects, but weights can be negative negating causal interpretation
+	\item Propose a solution for both static and dynamic specification which does not use already treated as controls
+	\item Treatment can turn on and off
+	\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Comment on Bacon}
+
+\begin{itemize}
+\item Recall the Bacon decomposition -- TWFE coefficients are decomposed into weighted average of all underlying 2x2s. Weights were non-negative and summed to one.
+\item But this decomposition was more a numerical decomposition -- what exactly adds up to equal the TWFE coefficient using the data we observe?
+\item Bacon's decomposition is not ``theoretical'' -- not in the way that other decompositions are. He is just explaining what OLS ``does'' when it calculates $\widehat{\delta}$
+\item Just explains what comparisons OLS is using to calculate the TWFE coefficient -- just peels back the curtain.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Causal effects}
+
+\begin{itemize}
+\item dCdH impose causal assumptions and try a different decomposition strategy
+\item Uses as its building block the unit-specific treatment effects
+\item This is hopefully going to help us better understand where these negative weights are coming from
+\item Note that their model is very general in that the treatment is reversible (meaning you can turn it on and off)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Terms}
+
+\begin{itemize}
+\item Target parameter: $$\Delta^g_{i,t} = Y^1_{i,t} - Y^\infty_{i,t}$$ but where the treatment is in time period $g$. Notice --it's not the ATT (it's $i$ individual treatment effect)
+\item TWFE terms. Define the error term as $\varepsilon_{i,t}$: $$D_{i,t} = \alpha_i + \alpha_t + \varepsilon_{i,t}$$
+\item Weights: $$w_{i,t} = \frac{\varepsilon_{i,t}}{\frac{1}{N^T} \sum_{i,t:D_{i,t}=1} \varepsilon_{i,t}}$$Basically divide the error by the average of the error for all treated units. 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Assumptions}
+
+\begin{block}{Strong unconditional PT}
+Assume that for every time period $t$ and every group $g,g'$, $$E[Y^\infty_t - Y^\infty_{t-1}|G=g] = E[Y^\infty_t - Y^\infty_{t-1}|G=g'] $$
+\end{block}Assume parallel trends for every unit in every cohort in every time period.
+
+\end{frame}
+
+\begin{frame}{dCdH Theorem}
+
+\begin{block}{Theorem -- dCdH decomposition}
+Assuming SUTVA, no anticipation and the strong PT, then let $\beta$ be the TWFE estimand associated with $$Y_{i,t} = \alpha_i + \alpha_t + \beta D_{i,t} + \varepsilon_{i,t}$$Then it follows that $$\beta = E \bigg [ \sum_{i,t:D_{i,t}=1} \frac{1}{N^T} w_{i,t} \cdot \Delta_{i,t}^g \bigg ] $$ where $\sum_{i,t:D_{i,t}=1} \frac{w_{i,t}}{N^T} = 1$ but $w_{i,t}$ can be negative
+\end{block}So once you run that specification, $\beta$ is going to recover a non-convex average over all unit level treatment effects (weights can be negative). dCdH was the first I think.
+
+\end{frame}
+
+
+\begin{frame}{Negative weights}
+
+\begin{itemize}
+\item Very common now to hear about negative weights, and furthermore, that negative weights wipe out any causal interpretation, but why?
+\item What if every unit treatment effect was positive, but some of the weights were negative?
+\item It's possible it could flip the sign, but it would definitely at least pull the estimate away from the true effect
+\item This is dangerous -- and it's caused by the forbidden contrasts (treated to already treated)
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Negative weights}
+
+\begin{itemize}
+\item Doesn't always pose a problem, but no proofs for this intuition known yet
+\item A large number of never-treated seems to make this less an issue
+\item Shrinking the spacing between treatment dates also can drive it down
+\item But does that mean that TWFE works, and what does it mean to work?
+\item TWFE still even when all the weights are positive the weighted average may not aggregate to what we think it does
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Weighting}
+
+\begin{itemize}
+\item The weights in OLS all come out of the model itself, \emph{not the economic question}
+\item The economic question is ``what parameter do you want? What does it look like? Who is in it?''
+\item And when you define the parameter up front, you've more or less defined the economic question you're asking
+\item But OLS sort of ignores your question and just gives you what it wants
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Weighting}
+
+\begin{itemize}
+\item What makes something a good vs a bad weight?
+\item Not being negative is the absolute minimal requirement
+\item But it's also not a good sign if you can't really explain the weights
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{dCdH Solution}
+
+\begin{itemize}
+\item dCdH propose an alternative that doesn't have the problems of TWFE -- both avoiding negative weights and improving interpretability
+\item Recall, their model can handle reversible treatments
+\item The focus will be 
 
 
 

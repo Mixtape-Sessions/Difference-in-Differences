@@ -343,6 +343,118 @@ VWPT &=& \sum_{k \neq U} \sigma_{kU} \bigg [ \Delta Y_k^0(Post(k),Pre) - \Delta 
 \end{eqnarray*}Now, if the ATT is constant over time, then this difference is zero, but what if the ATT is not constant? Then TWFE is biased, and depending on the dynamics and the VWATT, may even flip signs
 \end{frame}
 
+\subsection{Castle doctrine reform}
+
+
+\begin{frame}[plain]
+	\begin{figure}
+	\includegraphics[scale=0.5]{./lecture_includes/cheng_and_hoekstra_jhr.png}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}{Case study: Castle doctrine reforms}
+
+\begin{itemize}
+
+\item Cheng and Hoekstra (2013) is a good, clean example of a differential timing for us to practice on
+\item In 2005, Florida passed a law called Stand Your Ground that expanded self-defense protections beyond the house
+\item More ``castle doctrine'' reforms followed from 2006 to 2009
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Description}
+
+Details of castle doctrine reforms
+		\begin{itemize}
+		\item ``Duty to retreat'' is removed versus castle doctrine reforms; expanded where you can use lethal force
+		\item Presumption of reasonable fear is added
+		\item Civil liability for those acting under the law is removed
+		\end{itemize}
+\end{frame}
+
+\begin{frame}{Ambiguous predictions}
+	
+Castle reforms $\rightarrow$ homicides: Increase by removing homicide penalties and increasing opportunities
+	\begin{itemize}
+	\item Castle doctrine expansions lowered the (expected) cost of killing someone in self-defense
+	\item Lowering the price of lethal self-defense should increase lethal homicides
+	\end{itemize}
+\bigskip
+Castle reforms $\rightarrow$ homicides: decrease through deterrence
+
+\end{frame}
+
+
+\begin{frame}{Cheng and Hoekstra's estimation model}
+	
+	\begin{itemize}
+	\item TWFE model$$Y_{it} = \beta_1 D_i + \beta_2 T_t + \beta_3 (CDL_{it}) + \alpha_1X_{it} + c_i + u_t + \varepsilon_{it}$$
+	\item $CDL$ is a fraction between 0 and 1 depending on the percent of the year the state has a castle doctrine law 
+	\item Preferred specifications includes ``region-by-year fixed effects'' (see next slide)
+	\item Estimation with TWFE and Poisson with and without population weights
+	\item Models will include covariates (e.g., police, imprisonment, race shares, state spending on public assistance)
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Publicly available crime data}
+	
+Main data: FBI Uniform Crime Reports Part 1 Offenses (2000-2010)
+		\begin{itemize}
+		\item Main outcomes: log homicides
+		\item Falsification outcomes: motor vehicle theft and larceny
+		\item Deterrence outcomes: burglary, robbery, assault
+		\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Region-by-year fixed effects}
+	
+	\begin{itemize}
+	\item \textbf{Parallel trends assumption}: imposed structurally with region-by-year dummies
+	\item \textbf{Argument}: unobserved changes in crime are running ``parallel'' to the treatment states within region over time
+	\item \textbf{SUTVA} and \textbf{No Anticipation}: No spillovers, no hidden variation in treatment, no behavioral change today in response to tomorrow's law
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Results -- Deterrence}
+	
+	\begin{figure}
+	\includegraphics[scale=0.4]{./lecture_includes/cheng4.pdf}
+	\end{figure}
+\end{frame}
+
+
+
+
+\begin{frame}{Results -- Homicides}
+	
+	\begin{figure}
+	\includegraphics[scale=0.4]{./lecture_includes/cheng12.pdf}
+	\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Interpretation}
+	
+	\begin{itemize}
+	\item Series of robustness checks (falsifications on larceny and motor vehicle theft; deterrence; many different specifications)
+	\item Castle doctrine reforms are associated with an 8\% net increase in homicide rates per year across the 21 adopting states
+	\item Interpretation is these would not have occurred without castle doctrine reforms
+	\item But is this robust to alternative models? Today we will check
+	\end{itemize}
+\end{frame}
+
+
+
+
 
 
 \subsection{CS}
@@ -1050,7 +1162,7 @@ Pr(E_i=e|E_i \in [-l,T-l])
 
 \begin{itemize}
 \item \textbf{Stata}: eventstudyinteract (can be installed from ssc)
-\item \textbf{R}: did2s (see \url{https://asjadnaqvi.github.io/DiD/docs/02_R/})
+\item \textbf{R}: fixest (see \url{https://asjadnaqvi.github.io/DiD/docs/02_R/})
 \end{itemize}
 
 
@@ -1186,6 +1298,10 @@ Assuming SUTVA, no anticipation and the strong PT, then let $\beta$ be the TWFE 
 \item dCdH propose an alternative that doesn't have the problems of TWFE -- both avoiding negative weights and improving interpretability
 \item Recall, their model can handle reversible treatments
 \item The focus will be 
+
+\end{itemize}
+
+\end{frame}
 
 
 

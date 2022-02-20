@@ -34,7 +34,7 @@ library(DIDmultiplegt)
 
 # castle doctrine dataset (cheng and hoekstra 2013)
 castle <- data.frame(read.dta13('https://github.com/scunning1975/mixtape/raw/master/castle.dta'))
-castle$effyear[is.na(castle$effyear)] <- 1000 # untreated units have effective year of 0
+castle$effyear[is.na(castle$effyear)] <- 10000 # untreated units have effective year of 0
 castle$time_til[is.na(castle$time_til)] <- -1000 # untreated units have effective year of 0
 
 # 319 rows untreated, 11 treated in 2005, etc.

@@ -7,8 +7,6 @@ library(did) # Callaway & Sant'Anna
 castle <- data.frame(read.dta13('https://github.com/scunning1975/mixtape/raw/master/castle.dta'))
 castle$effyear[is.na(castle$effyear)] <- 0 # untreated units have effective year of 0
 
-
-
 # Estimating the effect on log(homicide)
 atts <- att_gt(yname = "l_homicide", # LHS variable
                tname = "year", # time variable

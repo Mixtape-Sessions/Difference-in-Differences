@@ -1,46 +1,56 @@
-#-------------------------------------------------------------------------------
-# name: baker_sa.R
-# last updated: friday february 18, 2022
-#-------------------------------------------------------------------------------
+library(haven)  # Read Stata .dta files
+library(fixest) # Sun & Abraham (and regular TWFE and high-dimensional FEs, etc., etc.)
 
-# Load packages
-#-------------------------------------------------------------------------------
-# Libraries
-library(haven)
-library(tidyverse)
-library(ggplot2)
-library(dplyr)
-library(bacondecomp)
-library(TwoWayFEWeights)
-library(fixest)
-library(glue)
-library(DIDmultiplegt)
+baker = read_dta('https://github.com/scunning1975/mixtape/raw/master/baker.dta')
 
-# baker simulated dataset of 1000 firms and 4 groups
-baker <- data.frame(read.dta13("https://github.com/scunning1975/mixtape/raw/master/baker.dta"))
-baker$treat_date[is.na(baker$treat_date)] <- 10000 # untreated units have effective year of 0
-baker$time_til[is.na(baker$time_til)] <- -1000 # untreated units have effective year of 0
+baker$treated = baker$treat_date!=0 # create a treatment variable
+# NB: All units in this dataset are treated so above is kind of pointless
 
-# Four groups, each with 7500 observations
-table(baker$treat_date)
-# leads and lags run from minimum of -24 to a maximum of +23
-table(baker$time_til)
+# Naive TWFE Event Study (SEs clustered by state)
+res_naive = feols(y ~ i(time_til, treated, ref = -1) | 
+                    id + year,
+                  baker, vcov = ~state)
+summary(res_naive)
+iplot(res_naive, main = "Naive TWFE")
 
-# "Naive" TWFE DiD (note that the time to treatment for the never treated is -10000)
-# (by using ref = c(-1, -1000) we exclude the period just before the treatment and 
-# the never treated)
-res_twfe = feols(y ~ i(time_til, ref = c(-1)) | id + year, baker)
+# Again, because all units are treated you could just as well have run the
+# following:
+feols(y ~ i(time_til, ref = -1) | 
+        id + year,
+      baker, vcov = ~state) |>
+  iplot()
 
-# To implement the Sun and Abraham (2020) method,
-# we use the sunab(cohort, period) function
-res_sa20 = feols(y ~ sunab(treat_date, year) | id + year, baker)
+# Sun and Abraham (SA20)
 
-# Plot the two TWFE results
-iplot(list(res_twfe, res_sa20), sep = 0.5)
+unique(baker$treat_date)
+
+# This time, our SA implementation is a little different because we don't have a
+# "never treated" group. (Everyone get's treated eventually.) So, we'll use our
+# last treated cohort (i.e. 2004) as the control group. In practice this means
+# that we have to subset our data by dropping all observations after this final
+# treatment year. You could create a new dataset, but here we'll just use the
+# `subset` argument to drop these observations on the fly.
+res_cohort = feols(y ~ sunab(treat_date, year) | id + year, 
+                   baker, subset = ~year<2004, ## NB: subset!
+                   vcov = ~state)
+summary(res_cohort)
+iplot(res_cohort, ref.line = -1, main = "Sun & Abraham")
+
+# Can also use iplot to plot them together
+iplot(list(res_naive, res_cohort), ref.line = -1,
+      main = "Treatment's effect on y")
+legend("topright", col = c(1, 2), pch = c(20, 17), 
+       legend = c("TWFE", "Sun & Abraham"))
 
 # The full ATT
-summary(res_sa20, agg = "att")
+summary(res_cohort, agg = "att")
 
 # Full disaggregation 
-summary(res_sa20)
+summary(res_cohort)
 
+
+# Aside: If you'd prefer ggplot2 versions of these plots then you can try...
+library(ggiplot) # remotes::install_github("grant_mcdermott/ggiplot")
+library(ggplot2)
+ggiplot(list("TWFE" = res_naive, "Sun & Abraham" = res_cohort), 
+      main = "Treatment's effect on outcome (y)")

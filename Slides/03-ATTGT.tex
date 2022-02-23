@@ -632,7 +632,7 @@ Let's now review a simulation in Stata which can be downloaded from my github re
 	\begin{itemize}
 	\item Including leads into the DD model is an easy way to analyze pre-treatment trends
 	\item Lags can be included to analyze whether the treatment effect changes over time after assignment
-	\item The estimated regression would be:$$Y_{its} = \gamma_s + \lambda_t + \sum_{\tau=-2}^{-q}\gamma_{\tau}D_{s\tau} + \sum_{\tau=0}^m\delta_{\tau}D_{s\tau}+x_{ist}+\varepsilon_{ist}$$
+	\item The estimated regression would be:$$Y_{its} = \gamma_s + \lambda_t + \sum_{\tau=-2}^{-q}\gamma_{\tau}D_{s\tau} + \sum_{\tau=0}^m\delta_{\tau}D_{s\tau}+\varepsilon_{ist}$$
 		\begin{itemize}
 		\item Treatment occurs in year 0
 		\item Includes $q$ leads or anticipatory effects

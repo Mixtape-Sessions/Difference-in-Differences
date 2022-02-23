@@ -1,6 +1,16 @@
+# ------------------------------------------------------------------------------
+# name: baker_sa.R
+# author: scott cunningham (with massive help from grant mcdermott who basically
+#         fixed all of it, so I think he's the author tbh)
+# description: implement SA on the baker dataset
+# last updated: february 20, 2022
+# ------------------------------------------------------------------------------
+
+# load libraries
 library(haven)  # Read Stata .dta files
 library(fixest) # Sun & Abraham (and regular TWFE and high-dimensional FEs, etc., etc.)
 
+# load data
 baker = read_dta('https://github.com/scunning1975/mixtape/raw/master/baker.dta')
 
 baker$treated = baker$treat_date!=0 # create a treatment variable

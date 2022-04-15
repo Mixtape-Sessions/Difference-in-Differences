@@ -38,7 +38,7 @@
 
 % ---- Content ----
 
-\section{Weighted Group-Time ATT}
+\section{Differential timing}
 
 \subsection{Bacon decomposition}
 
@@ -128,7 +128,7 @@ Let's return to a simpler example with only two groups -- a $k$ group treated at
 \begin{frame}[plain]
 $$\widehat{\delta}^{2x2}_{kU} = \bigg ( \overline{y}_k^{post(k)} - \overline{y}_k^{pre(k)} \bigg ) - \bigg ( \overline{y}_U^{post(k)} - \overline{y}_U^{pre(k)} \bigg ) $$
 	\begin{figure}
-	\includegraphics[scale=0.5]{./lecture_includes/bacon_goodman_3.png}
+	\includegraphics[scale=0.45]{./lecture_includes/bacon_goodman_3.png}
 	\end{figure}
 
 \end{frame}
@@ -136,7 +136,7 @@ $$\widehat{\delta}^{2x2}_{kU} = \bigg ( \overline{y}_k^{post(k)} - \overline{y}_
 \begin{frame}[plain]
 $$\widehat{\delta}^{2x2}_{lU} = \bigg ( \overline{y}_l^{post(l)} - \overline{y}_l^{pre(l)} \bigg ) - \bigg ( \overline{y}_U^{post(l)} - \overline{y}_U^{pre(l)} \bigg ) $$
 	\begin{figure}
-	\includegraphics[scale=0.5]{./lecture_includes/bacon_goodman_4.png}
+	\includegraphics[scale=0.45]{./lecture_includes/bacon_goodman_4.png}
 	\end{figure}
 
 \end{frame}
@@ -147,7 +147,7 @@ $$\widehat{\delta}^{2x2}_{lU} = \bigg ( \overline{y}_l^{post(l)} - \overline{y}_
 $$\delta_{kl}^{2x2,k} = \bigg ( \overline{y}_k^{MID(k,l)} - \overline{y}_k^{Pre(k,l)} \bigg ) - \bigg ( \overline{y}_l^{MID(k,l)} - \overline{y}_l^{PRE(k,l)} \bigg ) $$
 
 	\begin{figure}
-	\includegraphics[scale=0.5]{./lecture_includes/bacon_goodman_6.png}
+	\includegraphics[scale=0.45]{./lecture_includes/bacon_goodman_6.png}
 	\end{figure}
 
 \end{frame}
@@ -156,7 +156,7 @@ $$\delta_{kl}^{2x2,k} = \bigg ( \overline{y}_k^{MID(k,l)} - \overline{y}_k^{Pre(
 $$\delta_{lk}^{2x2,l} = \bigg ( \overline{y}_l^{POST(k,l)} - \overline{y}_l^{MID(k,l)} \bigg ) - \bigg ( \overline{y}_k^{POST(k,l)} - \overline{y}_k^{MID(k,l)} \bigg ) $$
 
 	\begin{figure}
-	\includegraphics[scale=0.5]{./lecture_includes/bacon_goodman_7.png}
+	\includegraphics[scale=0.4]{./lecture_includes/bacon_goodman_7.png}
 	\end{figure}
 
 \end{frame}
@@ -455,9 +455,31 @@ Main data: FBI Uniform Crime Reports Part 1 Offenses (2000-2010)
 
 
 
-
+\section{Implicit imputation}
 
 \subsection{CS}
+
+\begin{frame}{Imbens and Rubin 2015}
+
+\begin{quote}
+``At some level, all methods for causal inference can be viewed as imputation methods, although some more explicitly than others.'' -- Imbens and Rubin (2015)
+\end{quote}
+
+\end{frame}
+
+
+\begin{frame}{Causal inference involves imputation}
+
+\begin{itemize}
+\item Causal inference is a missing data problem -- we are missing counterfactuals
+\item Recall that estimating the ATT necessarily involved correctly imputing the counterfactual using parallel trends
+\item OLS, therefore, is \emph{implicitly} imputing counterfactuals for estimating the ATT
+\item We'll review a few studies that do this
+\end{itemize}
+
+\end{frame}
+
+
 
 \begin{frame}{Callaway and Sant'Anna 2020}
 

@@ -2,139 +2,233 @@
 \headcommand {\beamer@framepages {1}{1}}
 \headcommand {\beamer@sectionpages {1}{1}}
 \headcommand {\beamer@subsectionpages {1}{1}}
-\headcommand {\sectionentry {1}{Basic DiD}{2}{Basic DiD}{0}}
+\headcommand {\sectionentry {1}{Introducing difference-in-differences}{2}{Introducing difference-in-differences}{0}}
 \headcommand {\slideentry {1}{0}{1}{2/2}{}{0}}
 \headcommand {\beamer@framepages {2}{2}}
 \headcommand {\beamer@subsectionpages {2}{2}}
-\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Simple case, no covariates}}
-\headcommand {\slideentry {1}{1}{1}{3/3}{Simple case, no covariates}{0}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Numerical examples}}
+\headcommand {\slideentry {1}{1}{1}{3/3}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {3}{3}}
-\headcommand {\slideentry {1}{1}{2}{4/4}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{2}{4/4}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {4}{4}}
-\headcommand {\slideentry {1}{1}{3}{5/5}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{3}{5/5}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {5}{5}}
-\headcommand {\slideentry {1}{1}{4}{6/6}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{4}{6/6}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\slideentry {1}{1}{5}{7/7}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{5}{7/7}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\slideentry {1}{1}{6}{8/8}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{6}{8/8}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {1}{1}{7}{9/9}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{7}{9/9}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {1}{1}{8}{10/10}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{8}{10/10}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\slideentry {1}{1}{9}{11/11}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{9}{11/11}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\slideentry {1}{1}{10}{12/12}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{10}{12/12}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\slideentry {1}{1}{11}{13/13}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{1}{11}{13/13}{Numerical examples}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\slideentry {1}{1}{12}{14/14}{Simple case, no covariates}{0}}
+\headcommand {\beamer@subsectionpages {3}{13}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{14}{Potential outcomes}}
+\headcommand {\slideentry {1}{2}{1}{14/14}{Potential outcomes}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\slideentry {1}{1}{13}{15/15}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{2}{2}{15/15}{Potential outcomes}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\slideentry {1}{1}{14}{16/16}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{2}{3}{16/16}{Potential outcomes}{0}}
 \headcommand {\beamer@framepages {16}{16}}
-\headcommand {\slideentry {1}{1}{15}{17/17}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{2}{4}{17/17}{Potential outcomes}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\slideentry {1}{1}{16}{18/18}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{2}{5}{18/18}{Potential outcomes}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\slideentry {1}{1}{17}{19/19}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{2}{6}{19/19}{Potential outcomes}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\slideentry {1}{1}{18}{20/20}{Simple case, no covariates}{0}}
+\headcommand {\beamer@subsectionpages {14}{19}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{20}{Identification}}
+\headcommand {\slideentry {1}{3}{1}{20/20}{Identification}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\slideentry {1}{1}{19}{21/21}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{3}{2}{21/21}{Identification}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\slideentry {1}{1}{20}{22/22}{Simple case, no covariates}{0}}
+\headcommand {\slideentry {1}{3}{3}{22/22}{Identification}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\beamer@subsectionpages {3}{22}}
-\headcommand {\beamer@subsectionentry {0}{1}{2}{23}{IPW}}
-\headcommand {\slideentry {1}{2}{1}{23/23}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{4}{23/23}{Identification}{0}}
 \headcommand {\beamer@framepages {23}{23}}
-\headcommand {\slideentry {1}{2}{2}{24/24}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{5}{24/24}{Identification}{0}}
 \headcommand {\beamer@framepages {24}{24}}
-\headcommand {\slideentry {1}{2}{3}{25/25}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{6}{25/25}{Identification}{0}}
 \headcommand {\beamer@framepages {25}{25}}
-\headcommand {\slideentry {1}{2}{4}{26/26}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{7}{26/26}{Identification}{0}}
 \headcommand {\beamer@framepages {26}{26}}
-\headcommand {\slideentry {1}{2}{5}{27/27}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{8}{27/27}{Identification}{0}}
 \headcommand {\beamer@framepages {27}{27}}
-\headcommand {\slideentry {1}{2}{6}{28/28}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{9}{28/28}{Identification}{0}}
 \headcommand {\beamer@framepages {28}{28}}
-\headcommand {\slideentry {1}{2}{7}{29/29}{IPW}{0}}
+\headcommand {\slideentry {1}{3}{10}{29/29}{Identification}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\slideentry {1}{2}{8}{30/30}{IPW}{0}}
+\headcommand {\beamer@sectionpages {2}{29}}
+\headcommand {\beamer@subsectionpages {20}{29}}
+\headcommand {\sectionentry {2}{Estimation}{30}{Estimation}{0}}
+\headcommand {\slideentry {2}{0}{1}{30/30}{}{0}}
 \headcommand {\beamer@framepages {30}{30}}
-\headcommand {\slideentry {1}{2}{9}{31/31}{IPW}{0}}
+\headcommand {\beamer@subsectionpages {30}{30}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{31}{OLS Specification}}
+\headcommand {\slideentry {2}{1}{1}{31/31}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {31}{31}}
-\headcommand {\slideentry {1}{2}{10}{32/32}{IPW}{0}}
+\headcommand {\slideentry {2}{1}{2}{32/32}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {32}{32}}
-\headcommand {\slideentry {1}{2}{11}{33/33}{IPW}{0}}
+\headcommand {\slideentry {2}{1}{3}{33/33}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {33}{33}}
-\headcommand {\beamer@subsectionpages {23}{33}}
-\headcommand {\beamer@subsectionentry {0}{1}{3}{34}{DRDiD}}
-\headcommand {\slideentry {1}{3}{1}{34/34}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{4}{34/34}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {34}{34}}
-\headcommand {\slideentry {1}{3}{2}{35/35}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{5}{35/35}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {35}{35}}
-\headcommand {\slideentry {1}{3}{3}{36/36}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{6}{36/36}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {36}{36}}
-\headcommand {\slideentry {1}{3}{4}{37/37}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{7}{37/37}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {37}{37}}
-\headcommand {\slideentry {1}{3}{5}{38/38}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{8}{38/38}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {38}{38}}
-\headcommand {\slideentry {1}{3}{6}{39/39}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{9}{39/39}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {39}{39}}
-\headcommand {\slideentry {1}{3}{7}{40/40}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{10}{40/40}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {40}{40}}
-\headcommand {\slideentry {1}{3}{8}{41/41}{DRDiD}{0}}
+\headcommand {\slideentry {2}{1}{11}{41/41}{OLS Specification}{0}}
 \headcommand {\beamer@framepages {41}{41}}
-\headcommand {\slideentry {1}{3}{9}{42/42}{DRDiD}{0}}
+\headcommand {\beamer@subsectionpages {31}{41}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{42}{Event study}}
+\headcommand {\slideentry {2}{2}{1}{42/42}{Event study}{0}}
 \headcommand {\beamer@framepages {42}{42}}
-\headcommand {\slideentry {1}{3}{10}{43/43}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{2}{43/43}{Event study}{0}}
 \headcommand {\beamer@framepages {43}{43}}
-\headcommand {\slideentry {1}{3}{11}{44/44}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{3}{44/44}{Event study}{0}}
 \headcommand {\beamer@framepages {44}{44}}
-\headcommand {\slideentry {1}{3}{12}{45/45}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{4}{45/45}{Event study}{0}}
 \headcommand {\beamer@framepages {45}{45}}
-\headcommand {\slideentry {1}{3}{13}{46/46}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{5}{46/46}{Event study}{0}}
 \headcommand {\beamer@framepages {46}{46}}
-\headcommand {\slideentry {1}{3}{14}{47/47}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{6}{47/47}{Event study}{0}}
 \headcommand {\beamer@framepages {47}{47}}
-\headcommand {\slideentry {1}{3}{15}{48/48}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{7}{48/48}{Event study}{0}}
 \headcommand {\beamer@framepages {48}{48}}
-\headcommand {\slideentry {1}{3}{16}{49/49}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{8}{49/49}{Event study}{0}}
 \headcommand {\beamer@framepages {49}{49}}
-\headcommand {\slideentry {1}{3}{17}{50/50}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{9}{50/50}{Event study}{0}}
 \headcommand {\beamer@framepages {50}{50}}
-\headcommand {\slideentry {1}{3}{18}{51/51}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{10}{51/51}{Event study}{0}}
 \headcommand {\beamer@framepages {51}{51}}
-\headcommand {\slideentry {1}{3}{19}{52/52}{DRDiD}{0}}
+\headcommand {\slideentry {2}{2}{11}{52/52}{Event study}{0}}
 \headcommand {\beamer@framepages {52}{52}}
-\headcommand {\slideentry {1}{3}{20}{53/53}{DRDiD}{0}}
+\headcommand {\beamer@subsectionpages {42}{52}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{53}{Triple difference}}
+\headcommand {\slideentry {2}{3}{1}{53/53}{Triple difference}{0}}
 \headcommand {\beamer@framepages {53}{53}}
-\headcommand {\slideentry {1}{3}{21}{54/54}{DRDiD}{0}}
+\headcommand {\slideentry {2}{3}{2}{54/54}{Triple difference}{0}}
 \headcommand {\beamer@framepages {54}{54}}
-\headcommand {\slideentry {1}{3}{22}{55/55}{DRDiD}{0}}
+\headcommand {\slideentry {2}{3}{3}{55/55}{Triple difference}{0}}
 \headcommand {\beamer@framepages {55}{55}}
-\headcommand {\slideentry {1}{3}{23}{56/56}{DRDiD}{0}}
+\headcommand {\slideentry {2}{3}{4}{56/56}{Triple difference}{0}}
 \headcommand {\beamer@framepages {56}{56}}
-\headcommand {\slideentry {1}{3}{24}{57/57}{DRDiD}{0}}
+\headcommand {\beamer@subsectionpages {53}{56}}
+\headcommand {\beamer@subsectionentry {0}{2}{4}{57}{Falsifications}}
+\headcommand {\slideentry {2}{4}{1}{57/57}{Falsifications}{0}}
 \headcommand {\beamer@framepages {57}{57}}
-\headcommand {\slideentry {1}{3}{25}{58/58}{DRDiD}{0}}
+\headcommand {\slideentry {2}{4}{2}{58/58}{Falsifications}{0}}
 \headcommand {\beamer@framepages {58}{58}}
-\headcommand {\slideentry {1}{3}{26}{59/59}{DRDiD}{0}}
+\headcommand {\slideentry {2}{4}{3}{59/59}{Falsifications}{0}}
 \headcommand {\beamer@framepages {59}{59}}
-\headcommand {\slideentry {1}{3}{27}{60/60}{DRDiD}{0}}
+\headcommand {\slideentry {2}{4}{4}{60/60}{Falsifications}{0}}
 \headcommand {\beamer@framepages {60}{60}}
-\headcommand {\slideentry {1}{3}{28}{61/61}{DRDiD}{0}}
+\headcommand {\beamer@sectionpages {30}{60}}
+\headcommand {\beamer@subsectionpages {57}{60}}
+\headcommand {\sectionentry {3}{Including Covariates}{61}{Including Covariates}{0}}
+\headcommand {\slideentry {3}{0}{1}{61/61}{}{0}}
 \headcommand {\beamer@framepages {61}{61}}
-\headcommand {\slideentry {1}{3}{29}{62/62}{DRDiD}{0}}
+\headcommand {\beamer@subsectionpages {61}{61}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{62}{Inverse probability weighting}}
+\headcommand {\slideentry {3}{1}{1}{62/62}{Inverse probability weighting}{0}}
 \headcommand {\beamer@framepages {62}{62}}
-\headcommand {\slideentry {1}{3}{30}{63/63}{DRDiD}{0}}
+\headcommand {\slideentry {3}{1}{2}{63/63}{Inverse probability weighting}{0}}
 \headcommand {\beamer@framepages {63}{63}}
-\headcommand {\beamer@partpages {1}{63}}
-\headcommand {\beamer@subsectionpages {34}{63}}
-\headcommand {\beamer@sectionpages {2}{63}}
-\headcommand {\beamer@documentpages {63}}
-\headcommand {\gdef \inserttotalframenumber {63}}
+\headcommand {\slideentry {3}{1}{3}{64/64}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {64}{64}}
+\headcommand {\slideentry {3}{1}{4}{65/65}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {65}{65}}
+\headcommand {\slideentry {3}{1}{5}{66/66}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {66}{66}}
+\headcommand {\slideentry {3}{1}{6}{67/67}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {67}{67}}
+\headcommand {\slideentry {3}{1}{7}{68/68}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {68}{68}}
+\headcommand {\slideentry {3}{1}{8}{69/69}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {69}{69}}
+\headcommand {\slideentry {3}{1}{9}{70/70}{Inverse probability weighting}{0}}
+\headcommand {\beamer@framepages {70}{70}}
+\headcommand {\beamer@subsectionpages {62}{70}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{71}{Double Robust DiD}}
+\headcommand {\slideentry {3}{2}{1}{71/71}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {71}{71}}
+\headcommand {\slideentry {3}{2}{2}{72/72}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {72}{72}}
+\headcommand {\slideentry {3}{2}{3}{73/73}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {73}{73}}
+\headcommand {\slideentry {3}{2}{4}{74/74}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {74}{74}}
+\headcommand {\slideentry {3}{2}{5}{75/75}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {75}{75}}
+\headcommand {\slideentry {3}{2}{6}{76/76}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {76}{76}}
+\headcommand {\slideentry {3}{2}{7}{77/77}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {77}{77}}
+\headcommand {\slideentry {3}{2}{8}{78/78}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {78}{78}}
+\headcommand {\slideentry {3}{2}{9}{79/79}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {79}{79}}
+\headcommand {\slideentry {3}{2}{10}{80/80}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {80}{80}}
+\headcommand {\slideentry {3}{2}{11}{81/81}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {81}{81}}
+\headcommand {\slideentry {3}{2}{12}{82/82}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {82}{82}}
+\headcommand {\slideentry {3}{2}{13}{83/83}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {83}{83}}
+\headcommand {\slideentry {3}{2}{14}{84/84}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {84}{84}}
+\headcommand {\slideentry {3}{2}{15}{85/85}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {85}{85}}
+\headcommand {\slideentry {3}{2}{16}{86/86}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {86}{86}}
+\headcommand {\slideentry {3}{2}{17}{87/87}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {87}{87}}
+\headcommand {\slideentry {3}{2}{18}{88/88}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {88}{88}}
+\headcommand {\slideentry {3}{2}{19}{89/89}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {89}{89}}
+\headcommand {\slideentry {3}{2}{20}{90/90}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {90}{90}}
+\headcommand {\slideentry {3}{2}{21}{91/91}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {91}{91}}
+\headcommand {\slideentry {3}{2}{22}{92/92}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {92}{92}}
+\headcommand {\slideentry {3}{2}{23}{93/93}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {93}{93}}
+\headcommand {\slideentry {3}{2}{24}{94/94}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {94}{94}}
+\headcommand {\slideentry {3}{2}{25}{95/95}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {95}{95}}
+\headcommand {\slideentry {3}{2}{26}{96/96}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {96}{96}}
+\headcommand {\slideentry {3}{2}{27}{97/97}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {97}{97}}
+\headcommand {\slideentry {3}{2}{28}{98/98}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {98}{98}}
+\headcommand {\slideentry {3}{2}{29}{99/99}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {99}{99}}
+\headcommand {\slideentry {3}{2}{30}{100/100}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {100}{100}}
+\headcommand {\slideentry {3}{2}{31}{101/101}{Double Robust DiD}{0}}
+\headcommand {\beamer@framepages {101}{101}}
+\headcommand {\beamer@partpages {1}{101}}
+\headcommand {\beamer@subsectionpages {71}{101}}
+\headcommand {\beamer@sectionpages {61}{101}}
+\headcommand {\beamer@documentpages {101}}
+\headcommand {\gdef \inserttotalframenumber {101}}

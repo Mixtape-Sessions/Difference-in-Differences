@@ -14,8 +14,7 @@ capture log using ./texas.log, replace text
 * ssc install synth, replace
 
 * Estimation 1: Texas model of black male prisoners (per capita)
-use ../data/texas.dta, replace
-
+use https://github.com/scunning1975/mixtape/raw/master/smoking.dta, clear
 
 
 #delimit;

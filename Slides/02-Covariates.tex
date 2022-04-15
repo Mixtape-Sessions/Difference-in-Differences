@@ -39,30 +39,17 @@
 % ---- Content ----
 
 
-\section{Basic DiD}
+\section{Introducing difference-in-differences}
 
-\subsection{Simple case, no covariates}
 
-\begin{frame}{Introducing DiD}
-
-\begin{itemize}
-\item DiD in its modern form dates back to Orley Ashenfelter and David Card at Princeton in the late 70s and mid 80s (Card says they invent the term in mid 1980s)
-\item Unclear when key identifying assumptions like parallel trends are worked out (as originally there is no potential outcomes in play)
-\item Attractive elements included natural experimentation, panel data, and did not require randomization
-\item US context may also have been such that it had a lot of upside
-\item But let's start at the beginning with story and example
-\end{itemize}
-
-\end{frame}
+\subsection{Numerical examples}
 
 \begin{frame}{Miasma Debates}
 
 \begin{itemize}
 
-\item Health policy debates in the 19th century is where we DiD pop up, mainly as a matter of logical deduction 
+\item DiD is a 19th century tool used in health policy debates
 \item Dominant disease theory in 19th century was \emph{miasma} -- disease caused by smelly vapor
-\item Helped fuel a lot of sanitation reforms, but inadequate for explaining many diseases 
-\item ``All models are wrong but some are useful'' -- George Box)
 \item Keep in mind -- microorganisms would not be identified until much later, partly caused by poor resolution in microscopes (Freedman 2007)
 
 \end{itemize}
@@ -74,7 +61,14 @@
 \begin{itemize}
 \item 1840s, Vienna maternity wards had high postpartum infections in one wing compared to other wings
 \item One division had doctors and trainee doctors, but another had midwives and trainee midwives
-\item Ignaz Semmelweis notes the difference in 1841 when hospitals moved to ``anatomical'' training involving cadavers (Jakeila lecture 4, DiD)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Miasma I: Ignaz Semmelweis}
+
+\begin{itemize}
+\item Ignaz Semmelweis notes the difference in 1841 when hospitals moved to ``anatomical'' training involving cadavers (Pamela Jakeila lecture notes on DiD)
 \item New training happens to one but not the other and Semmelweis thinks the mortality is caused by working with cadavers
 \item Proposes washing hands with chlorine in 1847 in the midwives' wing and uses a DiD design of pre and post
 \end{itemize}
@@ -86,20 +80,28 @@
 \begin{frame}{Miasma II: John Snow and cholera}
 
 \begin{itemize}
-\item More well known involves John Snow, an important inventor of a device that delivered chloroform to patients for surgery (major advancement in anesthesia)
-\item H was also an amateur epidemiologist in 19th century, and these days it's more common to hear him be named the father of DiD
-\item Believed cholera was spread through the Thames water supply which contradicted dominant theory about ``dirty air'' transmission
+\item John Snow believed cholera was spread through the Thames water supply which contradicted dominant theory about ``dirty air'' transmission
 \item Grand experiment: Lambeth moves its pipe between 1849 and 1854; Southwark and Vauxhall delay
-\item How can he use this event to test his hypothesis? Three ways: simple comparisons, interrupted time series of the difference in differences (DiD)
+\item He can evaluate the effect in three ways (one of which is DiD)
 \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+	\begin{figure}
+	\caption{Two water utility companies in London 1854}
+	\includegraphics[scale=0.225]{./lecture_includes/lambeth.png}
+	\end{figure}
+
 
 \end{frame}
 
 
 
 
-
-\begin{frame}{Simple cross-sectional design}
+\begin{frame}{1) Simple cross-sectional design}
 
 \begin{table}\centering
 		\caption{Lambeth and Southwark and Vauxhall, 1854}
@@ -110,7 +112,6 @@
 		\multicolumn{1}{c}{\textbf{Cholera mortality}}\\
 		\midrule
 		Lambeth  & $Y=L + D$ \\
-		\midrule
 		Southwark and Vauxhall  & $Y=SV$ \\
 		\bottomrule
 		\end{tabular}
@@ -121,11 +122,36 @@
 
 \begin{eqnarray*}
 \widehat{\delta}_{cs} = D + (L-SV)
-\end{eqnarray*}This is selection bias with respect to $Y^0$.
+\end{eqnarray*}What is $L$ and $SV$?  
 
 \end{frame}
 
-\begin{frame}{Interrupted time series design}
+\begin{frame}{1) Simple cross-sectional design}
+
+\begin{table}\centering
+		\caption{Lambeth and Southwark and Vauxhall, 1854}
+		\begin{center}
+		\begin{tabular}{ll}
+		\toprule
+		\multicolumn{1}{l}{\textbf{Company}}&
+		\multicolumn{1}{c}{\textbf{Cholera mortality}}\\
+		\midrule
+		Lambeth  & $Y=L + D$ \\
+		Southwark and Vauxhall  & $Y=SV$ \\
+		\bottomrule
+		\end{tabular}
+		\end{center}
+	\end{table}
+
+\bigskip
+
+\begin{eqnarray*}
+\widehat{\delta}_{cs} = D + (L-SV)
+\end{eqnarray*}This is biased if $\L \neq SV$ (selection bias). Give an example when we're pretty sure they are equal.
+
+\end{frame}
+
+\begin{frame}{2) Interrupted time series design}
 
 	\begin{table}\centering
 		\caption{Lambeth, 1849 and 1854}
@@ -145,12 +171,12 @@
 
 \begin{eqnarray*}
 \widehat{\delta}_{its} = D + T
-\end{eqnarray*}This is selection bias with respect to time, $T \neq 0$
+\end{eqnarray*}What is required for this estimator to be unbiased?
 
 
 \end{frame}
 
-\begin{frame}{Difference-in-differences}
+\begin{frame}{3) Difference-in-differences}
 
 \begin{table}\centering
 		\caption{Lambeth and Southwark and Vauxhall, 1849 and 1854}
@@ -177,21 +203,158 @@
 
 \begin{eqnarray*}
 \widehat{\delta}_{did} = D + (T_L - T_{SV})
-\end{eqnarray*}This is selection bias with respect to $Y^0$ trends
+\end{eqnarray*}How do we calculate $T_{SV}$?  
 
 \end{frame}
 
-\begin{frame}{DiD equation, 2x2 and parallel trends}
+\begin{frame}{3) Difference-in-differences}
+
+\begin{table}\centering
+		\caption{Lambeth and Southwark and Vauxhall, 1849 and 1854}
+		\begin{center}
+		\begin{tabular}{lll|lc}
+		\toprule
+		\multicolumn{1}{l}{\textbf{Companies}}&
+		\multicolumn{1}{c}{\textbf{Time}}&
+		\multicolumn{1}{c}{\textbf{Outcome}}&
+		\multicolumn{1}{c}{$D_1$}&
+		\multicolumn{1}{c}{$D_2$}\\
+		\midrule
+		Lambeth & Before & $Y=L$ \\
+		& After & $Y=L + T_L + D$ & $T_L+D$\\
+		\midrule
+		& & & & $D$ \\
+		\midrule
+		Southwark and Vauxhall & Before & $Y=SV$ \\
+		& After & $Y=SV + T_{SV}$ & $T_{SV}$\\
+		\bottomrule
+		\end{tabular}
+		\end{center}
+	\end{table}
+
+\begin{eqnarray*}
+\widehat{\delta}_{did} = D + (T_L - T_{SV})
+\end{eqnarray*}How do we calculate $T_{L}$?  
+
+\end{frame}
+
+
+\begin{frame}{3) Difference-in-differences}
+
+\begin{table}\centering
+		\caption{Lambeth and Southwark and Vauxhall, 1849 and 1854}
+		\begin{center}
+		\begin{tabular}{lll|lc}
+		\toprule
+		\multicolumn{1}{l}{\textbf{Companies}}&
+		\multicolumn{1}{c}{\textbf{Time}}&
+		\multicolumn{1}{c}{\textbf{Outcome}}&
+		\multicolumn{1}{c}{$D_1$}&
+		\multicolumn{1}{c}{$D_2$}\\
+		\midrule
+		Lambeth & Before & $Y=L$ \\
+		& After & $Y=L + T_L + D$ & $T_L+D$\\
+		\midrule
+		& & & & $D$ \\
+		\midrule
+		Southwark and Vauxhall & Before & $Y=SV$ \\
+		& After & $Y=SV + T_{SV}$ & $T_{SV}$\\
+		\bottomrule
+		\end{tabular}
+		\end{center}
+	\end{table}
+
+\begin{eqnarray*}
+\widehat{\delta}_{did} = D + (T_L - T_{SV})
+\end{eqnarray*}This second term is called ``parallel trends''
+
+\end{frame}
+
+
+
+\subsection{Potential outcomes}
+
+
+
+\begin{frame}{Potential outcomes review}
 
 \begin{itemize}
-\item I tend to group DiD based on whether the design will be based on two things:
-	\begin{enumerate}
-	\item \textbf{Parallel trends}: $T_L = T_{SV}$ for identification
-	\item \textbf{DiD equation}: (After minus before for treated) - (After minus before for comparison group)
-	\end{enumerate}
-\item Goodman-Bacon (2018; 2021) calls the DiD equation the ``2x2'' and I will too sometimes, but they mean the same thing
-\item Both tend to show up repeatedly in each of the methods we examine in this workshop
-\item It's how I differentiate DiD from others like the broadly defined panel estimators
+\item DiD really can't be understood without committing to some common causality language
+\item Standard language is the potential outcomes model, sometimes called the Rubin-Neyman model
+\item Don't go over potential outcomes too fast or you'll miss all the fun
+\item Potential outcomes are thought experiments about worlds that never existed, but which \emph{could have}
+\end{itemize}
+
+\end{frame}
+\begin{frame}{Potential outcomes notation}
+	
+	\begin{itemize}
+	\item Let the treatment be a binary variable: $$D_{i,t} =\begin{cases} 1 \text{ if pipe inlet is upstream at time $t$} \\ 0 \text{ if pipe inlet is downstream at time $t$} \end{cases}$$where $i$ indexes an individual observation, such as a person
+
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Potential outcomes notation}
+	
+	\begin{itemize}
+
+	\item Potential outcomes: $$Y_{i,t}^j =\begin{cases} 1 \text{: health if drank from upstream at time $t$} \\ 0 \text{: health if drank from downstream at time $t$} \end{cases}$$where $j$ indexes a counterfactual state of the world
+
+	\item I'll drop $t$ subscript, but note -- these are potential outcomes for the same person at the exact same moment in time
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Potential vs observed}
+
+\begin{itemize}
+\item A potential outcome $Y^1$ and an observed outcome $Y$ are distinct
+\item Potential outcomes are \emph{hypothetical} possibilities describing states of the world but historical outcomes actually occurred
+\item Potential outcomes become observed outcomes when treatments are assigned (the ``switching equation'') $$Y=DY^1 + (1-D)Y^0$$
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Treatment effect definitions}
+
+
+	\begin{block}{Individual treatment effect}
+	    The individual treatment effect,  $\delta_i$, equals $Y_i^1-Y_i^0$
+	\end{block}
+
+Individual causal effects cannot be calculated because one of the two needed potential outcomes will always be missing. Epistemologically ``unknowable'' in some important but difficult to define way.	
+	
+\end{frame}
+
+
+\begin{frame}{Conditional Average Treatment Effects}	
+	\begin{block}{Average Treatment Effect on the Treated (ATT)}
+	The average treatment effect on the treatment group is equal to the average treatment effect conditional on being a treatment group member:
+		\begin{eqnarray*}
+		E[\delta|D=1]&=&E[Y^1-Y^0|D=1] \nonumber \\
+		&=&E[Y^1|D=1]-\textcolor{red}{E[Y^0|D=1]}
+		\end{eqnarray*}
+	\end{block}
+	
+	\bigskip
+	
+ Again that ``epistemological'' uncertainty.  We can estimate the ATT, but never be sure due to \textcolor{red}{missing potential outcomes} for the treated group
+
+	
+\end{frame}
+
+
+
+\subsection{Identification}
+
+\begin{frame}{Identification without randomization}
+
+\begin{itemize}
+\item We may be unable to randomize -- not because we lack the imagination, but because we lack the permission
+\item If we cannot randomize, then how does DiD identify a treatment effect, and which treatment effect?
+\item DiD identifies the ATT, and since we are missing $Y^0$ for treated group, we will restrict counterfactual $Y^0$ in expectation
 \end{itemize}
 
 \end{frame}
@@ -199,21 +362,23 @@
 
 
 
+\begin{frame}{DiD equation}
 
-
-\begin{frame}{DiD equation with sample averages}
-
-\begin{eqnarray*}
-\widehat{\delta}^{2x2}_{kU} = \bigg ( \overline{y}_k^{post(k)} - \overline{y}_k^{pre(k)} \bigg ) - \bigg ( \overline{y}_U^{post(k)} - \overline{y}_U^{pre(k)} \bigg )
-\end{eqnarray*}
-
-\end{frame}
-
-\begin{frame}{DiD equation with population expectations}
+I call this the DiD equation, but Goodman-Bacon calls it the ``2x2''; I'll use his $k$ and $U$ notation for treated and untreated groups
 
 \begin{eqnarray*}
 \widehat{\delta}^{2x2}_{kU} = \bigg ( E[Y_k|Post] - E[Y_k|Pre] \bigg ) - \bigg ( E[Y_U | Post ] - E[ Y_U | Pre] \bigg) \\
-\end{eqnarray*}
+\end{eqnarray*}$k$ index people with Lambeth, $U$ index people with Southwark and Vauxhall, $Post$ is after Lambeth moved pipe upstream, $Pre$ before Lambeth moved its pipe (baseline), and $E[y]$ mean cholera mortality. 
+
+\end{frame}
+
+\begin{frame}{DiD equation}
+
+``Pre'' and ``Post'' refer to when Lambeth, $k$, was treated which is why it is the same for both $k$ and $U$ groups
+
+\bigskip
+
+If we had more than one treatment group, then ``Pre'' and ``Post'' no longer are defined for all units
 
 \end{frame}
 
@@ -234,62 +399,82 @@
 && + \bigg [  \underbrace{\textcolor{red}{E[Y^0_k | Post]} - E[Y^0_k | Pre] \bigg ] - \bigg [ E[Y^0_U | Post] - E[Y_U^0 | Pre] }_{\mathclap{\text{Non-parallel trends bias in 2x2 case}}} \bigg ]
 \end{eqnarray*}
 
-\bigskip
-
-Note that this is what we saw in the table earlier -- $T_L \neq T_{SV}$ and it's not measurable because $T_L$ is confounded by the ATT itself
-
 
 \end{frame}
 
-\begin{frame}{Similar role $Y^0$ in selection bias}
-
-Cross-sectional comparisons and selection bias with respect to $Y^0$
-
-\begin{eqnarray*}
-E[Y|D=1] - E[Y|D=0] &=& ATE + E[Y^0|D=1] - E[Y^0|D=0] \\
-&=& + (1- \pi)(ATT-ATU)
-\end{eqnarray*}
-
-DiD comparisons and selection bias with respect to $Y^0$
-
-\begin{eqnarray*}
-\widehat{\delta}^{2x2}_{kU} &=& \underbrace{E[Y^1_k | Post] - \textcolor{red}{E[Y^0_k | Post]}}_{\mathclap{\text{ATT}}} \\
-&& + \bigg [  \underbrace{\textcolor{red}{E[Y^0_k | Post]} - E[Y^0_k | Pre] \bigg ] - \bigg [ E[Y^0_U | Post] - E[Y_U^0 | Pre] }_{\mathclap{\text{Non-parallel trends bias in 2x2 case}}} \bigg ]
-\end{eqnarray*}
-
-\end{frame}
-
-
-\begin{frame}{Independence}
+\begin{frame}{Identification}
 	
 
-	\begin{block}{Independence assumption}
-	Treatment is assigned to a population independent of that population's potential outcomes  $$(Y^0,Y^1)\independent{D}$$
+	\begin{block}{Parallel trends}
+	Assume two groups, treated and comparison group, then we define parallel trends as:	 $$\textcolor{red}{E(}\textcolor{red}{\Delta Y^0_k)} = E(\Delta Y^0_U)$$
 	\end{block}
-This is random or quasi-random assignment and ensures mean potential outcomes for the treatment group and control group are the same.  Also ensures other variables are distributed the same for a large sample.
-		\begin{eqnarray*}
-			E[Y^0|D=1] &=& E[Y^0 | D=0] \\
-			E[Y^1|D=1] &=& E[Y^1 | D=0] 
-		\end{eqnarray*}
+
+\textbf{In words}: ``The \textcolor{red}{evolution of cholera mortality for Lambeth \emph{had it kept its pipe downstream}} is the same as the evolution of cholera mortality for Southwark and Vauxhall''.  
+
+\bigskip
+
+It's in \textcolor{red}{red} so you know it's a nontrivial assumption.  But why?  Can't we just check?
+
+	
+
+	
 \end{frame}
 
-\begin{frame}{Non-randomization identification}
+
+
+
+\begin{frame}{How does the science work}
 
 \begin{itemize}
-\item But we won't use randomization for identification with DiD
-\item This is one of the appeals of DiD -- we aren't using physical randomization
-\item But note, independence works and gives confidence ``because we know how the science works'' -- Don Rubin
-\item There is no such ``science'' with parallel trends, so we tend to focus on a variety of ad hoc tests like event studies for confidence
-\item But otherwise, it's actually quite similar, and shows that identification does not always depend on randomization
+\item You've probably heard people say RCT is the gold standard for causal inference.  But why?
+\item Because randomization gives \emph{near certainty} that selection bias won't exist
+\item Don Rubin commented once, ``we know how the science works''
 \end{itemize}
 
 \end{frame}
 
 
+\begin{frame}{Independence}
+
+
+\begin{block}{Independence assumption}
+Treatment is independent of potential outcomes  $$(Y^0,Y^1)\independent{D}$$
+\end{block}	
+
+RCTs use \emph{independence} to estimate causal effects; DiD does not
+
+\end{frame}
+
+\begin{frame}{Independence}
+
+Independence allows us to write down conditional expected potential outcome equations like $$E[Y^0|D=1]=E[Y^0|D=0]$$ 
+
+\bigskip
+
+In the simple comparison in means, $\widehat{\delta}_{cs} = D + (L-SV)$, independence implies $L=SV$ (no selection bias).
+
+\end{frame}
+
+
+\begin{frame}{Parallel trends}
+
+\begin{itemize}
+\item Unlike selection bias under RCT being zero, \textbf{there is no science of parallel trends}
+\item DiD is a harder design because it doesn't rely on randomization (it relies on parallel trends)
+\item Ashenfelter's Dip -- treatment and control group units prior to treatment seemed like they would've diverged anyway
+\item Now we do an exercise together.  Open up the word document and excel spreadsheet.  
+\end{itemize}
+
+\end{frame}
+
+\section{Estimation}
+
+\subsection{OLS Specification}
+
+
 \begin{frame}{OLS Specification}
 	
 	\begin{itemize}
-	\item Simple difference in means can be computed with OLS, too, but not as easy to explicitly see the parallel trends so I'll show you graphically
 	\item Properly specified OLS model will also identify the ATT when there is only two groups and no covariates
 	\item Often preferred because
 		\begin{itemize}
@@ -297,7 +482,7 @@ This is random or quasi-random assignment and ensures mean potential outcomes fo
 		\item Easy to calculate the standard errors
 		\item Easy to include multiple periods
 		\end{itemize}
-	\item But some issues emerge with differential timing, time varying covariates and continuous treatments
+	\item Some issues emerge with differential timing, time varying covariates and continuous treatments, so we take those separately
 	\end{itemize}
 \end{frame}
 
@@ -305,18 +490,35 @@ This is random or quasi-random assignment and ensures mean potential outcomes fo
 
 \begin{itemize}
 \item Card and Krueger (1994) have a famous study estimating causal effect (ATT) of minimum wages on employment
-\item Exploited a policy change in New Jersey between February and November in mid-1990s where minimum wage was increased
-\item Neighbor PA did not (remember no spillover assumption)
-\item Found no effect on minimum wage; if anything it was the opposite effect
-\item Caused some feuding with Buchanan saying people who believed it enough to adopt it were ``camp following whores'' (Wall Street Journal op-ed during Clinton admin)
+\item Exploited a policy change in New Jersey between February and November in mid-1990s where minimum wage was increased, but neighbor PA did not
+\item Using DiD, they do not find a negative effect of the minimum wage on employment
 \end{itemize}
 
 \end{frame}
 
+\begin{frame}
+	\begin{figure}
+	\includegraphics[scale=0.5]{./lecture_includes/minwage_whore}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Card on that study}
+
+\begin{quote}
+``I’ve subsequently stayed away from the minimum wage literature for a number of reasons. First, it cost me a lot of friends. People that I had known for many years, for instance, some of the ones I met at my first job at the University of Chicago, became very angry or disappointed. They thought that in publishing our work we were being traitors to the cause of economics as a whole.''
+\end{quote}
+
+\bigskip
+
+But let's listen to Orley's opinion about the paper's controversy at the time.  \url{https://youtu.be/MOtbuRX4eyQ?t=1882}
+
+\end{frame}
+
+
 \begin{frame}{OLS specification of the DiD equation}
 	
 	\begin{itemize}
-	\item The equivalent regression includes time and group fixed effects:$$Y_{its} = \alpha + \gamma NJ_s + \lambda d_t + \delta (NJ \times d)_{st} + \varepsilon_{its}$$
+	\item The correctly specified OLS regression is an interaction with time and group fixed effects:$$Y_{its} = \alpha + \gamma NJ_s + \lambda d_t + \delta (NJ \times d)_{st} + \varepsilon_{its}$$
 		\begin{itemize}
 		\item NJ is a dummy equal to 1 if the observation is from NJ
 		\item d is a dummy equal to 1 if the observation is from November (the post period)
@@ -342,54 +544,316 @@ This is random or quasi-random assignment and ensures mean potential outcomes fo
 	\end{figure}
 \end{frame}
 
-\begin{frame}{OLS with twoway fixed effects}
 
 
-Under parallel trends, OLS estimates the ATT. Researchers often will use OLS with time-varying covariates, but this is not advised as it is only unbiased under more restrictive assumptions which we discuss next (though see new working paper by Cattaneo, et al. 2022 on controlling for time-varying covariates).
+	
+
+
+\begin{frame}{Compositional differences violate parallel trends}
+	
+	\begin{itemize}
+	\item One of the risks of a repeated cross-section is that the composition of the sample may have changed between the pre and post period
+	\item Hong (2011) uses repeated cross-sectional data from the Consumer Expenditure Survey (CEX) containing music expenditure and internet use for a random sample of households
+	\item Study exploits the emergence of Napter (first file sharing software widely used by Internet users) in June 1999 as a natural experiment
+	\item Study compares internet users and internet non-users before and after emergence of Napster
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}[plain]
+	\begin{figure}
+	\includegraphics{./lecture_includes/Hong_1.pdf}
+	\end{figure}
+	
+\end{frame}
+
+\begin{frame}[shrink=20,plain]
+	\begin{figure}
+	\includegraphics{./lecture_includes/Hong_2.pdf}
+	\end{figure}
+	
+	Diffusion of the Internet changes samples (e.g., younger music fans are early adopters)
+	
+\end{frame}
+
+\begin{frame}{Inference}
+	
+	\begin{itemize}
+	\item  Bertrand, Duflo and Mullainathan (2004) show that conventional standard errors will often severely understate the standard deviation of the estimators
+	\item Standard errors are biased downward (i.e., too small, over reject)
+	\item They proposed three solutions, but most only use one of them (clustering)
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Inference}
+	
+		\begin{enumerate}
+		\item Block bootstrapping standard errors (if you analyze states the block should be the states and you would sample whole states with replacement for bootstrapping)
+		\item Clustering standard errors at the group level (in Stata one would simply add \texttt{, cluster(state)} to the regression equation if one analyzes state level variation)
+		\item Aggregating the data into one pre and one post period. Literally works if there is only one treatment data.  With staggered treatment dates one should adopt the following procedure:
+			\begin{itemize}
+			\item Regress $Y_{st}$ onto state FE, year FE and relevant covariates
+			\item Obtain residuals from the treatment states only and divide them into 2 groups: pre and post treatment
+			\item Then regress the two groups of residuals onto a post dummy
+			\end{itemize}
+		\end{enumerate}
+\end{frame}
+
+
+\subsection{Event study}
+
+\begin{frame}{Evidence for parallel trends: pre-trends}
+
+\begin{itemize}
+
+	\item The identifying assumption for all DD designs is parallel trends, but since we cannot verify parallel trends, we often look at pre-trends
+	\item But, even if pre-trends are the same one still has to worry about other policies changing at the same time (omitted variable bias)
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Plot the raw data when there's only two groups}
+
+	\begin{figure}
+	\includegraphics[scale=2.5]{./lecture_includes/waldinger_dd_6.pdf}
+	\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}{Event study regression}
+	
+	\begin{itemize}
+	\item Including leads into the DD model is an easy way to analyze pre-treatment trends
+	\item Lags can be included to analyze whether the treatment effect changes over time after assignment
+	\item The estimated regression would be:$$Y_{its} = \gamma_s + \lambda_t + \sum_{\tau=-2}^{-q}\mu_{\tau}D_{s\tau} + \sum_{\tau=0}^m\delta_{\tau}D_{s\tau}+\varepsilon_{ist}$$
+		\begin{itemize}
+		\item $D$ equals the treatment group interacted with the calendar year
+		\item Treatment occurs in year 0, no anticipation, drop baseline $t-1$
+		\item Includes $q$ leads or anticipatory effects
+		\item Includes $m$ lags or post treatment effects
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Event study regression}
+
+
+$$Y_{its} = \gamma_s + \lambda_t + \sum_{\tau=-2}^{-q}\mu_{\tau}D_{s\tau} + \sum_{\tau=0}^m\delta_{\tau}D_{s\tau}+\varepsilon_{ist}$$
+
+\bigskip
+
+Typically you'll plot the coefficients and 95\% CI on all leads and lags (binned or not, trimmed or not) 
+
+\bigskip
+
+Under parallel trends and no anticipation, then you expect $\widehat{\mu}$ coefficients to be zero, which gives you confidence that parallel trends holds (but is not a guarantee)
+
+\end{frame}
+
+
+
+\begin{frame}{Medicaid and Affordable Care Act example}
+
+\begin{figure}
+\includegraphics[scale=0.25]{./lecture_includes/medicaid_qje}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Evidence}
+
+\begin{itemize}
+\item \textbf{Bite} -- show that the expansion shifted people into Medicaid and out of uninsured status
+\item \textbf{Placebos} -- Show that there's no effect on mortality for groups it shouldn't be affecting (people 65+)
+\item \textbf{Event study} -- Show leads and lags on mortality
+\end{itemize}
+
+\end{frame}
+
+
+\imageframe{./lecture_includes/Miller_Medicaid1.png}
+
+\imageframe{./lecture_includes/Miller_Medicaid2.png}
+
+\imageframe{./lecture_includes/Miller_Medicaid3.png}
+
+
+\imageframe{./lecture_includes/medicaid_qje_placebo}
+
+
+\begin{frame}[plain]
+
+	\begin{figure}
+	\includegraphics[scale=0.3]{./lecture_includes/Miller_Medicaid4.png}
+	\caption{Miller, et al. (2019) estimates of Medicaid expansion's effects on on annual mortality}
+	\end{figure}
+
+\end{frame}
+
+\subsection{Triple difference}
+
+\begin{frame}{Additional identification things}
+	
+	\begin{itemize}
+	\item Very common for readers and others to request a variety of ``robustness checks'' from a DD design
+	\item Think of these as along the same lines as the event study we just discussed
+		\begin{itemize}
+		\item Falsification test using data for alternative control group (e.g., Medicare population)
+		\item Falsification test using alternative ``placebo'' outcome that should not be affected by the treatment
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[shrink=20]
+
+\begin{table}\centering
+		\caption{Difference-in-Difference-in-differences}
+		\tiny
+		\begin{center}
+		\begin{tabular}{lll|l|lll}
+		\hline \hline
+		\multicolumn{1}{l}{\textbf{States}}&
+		\multicolumn{1}{c}{\textbf{Group}}&
+		\multicolumn{1}{c}{\textbf{Period}}&
+		\multicolumn{1}{c}{\textbf{Outcomes}}&
+		\multicolumn{1}{c}{$D_1$}&
+		\multicolumn{1}{c}{$D_2$}&
+		\multicolumn{1}{c}{$D_3$}\\
+		\hline
+		&&After	&$NJ+T+NJ_t+l_t+D$					\\
+	&Low wage employment			&&&$T+NJ_t+l_t+D$			\\
+		&&Before	&$NJ$					\\
+NJ					&&&&&$D+l_t-s_t$			\\
+		&&After	&$NJ+T+NJ_t+s_t$					\\
+	&High wage employment		&&	&$T+NJ_t+s_t$				\\
+		&&Before	&$NJ$					\\
+								\\
+&&&&&&$D$
+\\
+		&&After	&$PA+T+PA_t+l_t$				\\
+	&Low wage employment			&&&$T+PA_t+l_t$ \\				
+		&&Before	&$PA$					\\
+PA					&&&&&$l_t-s_t$		\\
+		&&After	&$PA+T+PA_t+s_t$					\\
+	&High wage employment		&&&	$T+PA_t+s_t$				\\
+		&&Before	&$PA$					\\
+		\hline \hline
+		\end{tabular}
+		\end{center}
+	\end{table}
+	
+\textbf{What is our identifying assumption?}
+
+\bigskip
+
+$l_t-s_t$ is the same for PA and NJ. That's the gap between high and low wage employment in PA (observed) is the same as NJ (counterfactual).
 
 
 
 \end{frame}
 
+\begin{frame}{DDD Example by Gruber}
+	
+	\begin{figure}
+	\includegraphics{./lecture_includes/gruber_ddd_3.pdf}
+	\end{figure}
+	
+\end{frame}
 
-\subsection{IPW}
+\begin{frame}{DDD in Regression}
+	
+	\begin{eqnarray*}
+	Y_{ijt} &=&\alpha +  \beta_2 \tau_t + \beta_3 \delta_j  + \beta_4 D_i + \beta_5(\delta \times \tau)_{jt} \\
+	&& +\ \beta_6(\tau \times D)_{ti} +  \beta_7(\delta \times D)_{ij} +  \textcolor{red}{\beta_8(\delta \times \tau \times  D)_{ijt}}+  \varepsilon_{ijt}
+	\end{eqnarray*}
+	
+	\begin{itemize}
+	\item Your panel is now a group $j$ state $i$ (e.g., AR high wage worker 1991, AR high wage worker 1992, etc.)
+	\item Assume we drop $\tau_t$ but I just want to show it to you for now.
+	\item If the placebo DD is non-zero, it might be difficult to convince the reviewer that the DDD removed all the bias 
+	\end{itemize}
+	
+\end{frame}
+
+
+\subsection{Falsifications}
+
+\begin{frame}{Falsification test with alternative outcome}
+	
+	\begin{itemize}
+	\item The within-group control group (DDD) is a form of placebo analysis using the same \emph{outcome}
+	\item But there are also placebos using a \emph{different} outcome -- but you need a hypothesis of mechanisms to figure out what is in fact a \emph{different outcome}
+	\item Figure out what those are, and test them -- finding no effect raises the epistemological credibility of the first result, interestingly
+	\item Cheng and Hoekstra (2013) examine the effect of castle doctrine gun laws on non-gun related offenses like grand theft auto and find no evidence of an effect
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Rational addiction as a placebo critique}
+
+
+Sometimes, an empirical literature may be criticized using nothing more than placebo analysis
+
+\begin{quote}``A majority of [our] respondents believe the literature is a success story that demonstrates the power of economic reasoning.  At the same time, they also believe the empirical evidence is weak, and they disagree both on the type of evidence that would validate the theory and the policy implications. Taken together, this points to an interesting gap.  On the one hand, most of the respondents claim that the theory has valuable real world implications.  On the other hand, they do not believe the theory has received empirical support.''
+\end{quote}
+
+\end{frame}
+
+\begin{frame}{Placebo as critique of empirical rational addiction}
+
+\begin{itemize}
+	\item Auld and Grootendorst (2004) estimated standard ``rational addiction'' models (Becker and Murphy 1988) on data with milk, eggs, oranges and apples.  
+	\item They find these plausibly non-addictive goods are addictive, which casts doubt on the empirical rational addiction models.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Placebo as critique of peer effects}
+
+\begin{itemize}
+	\item Several studies found evidence for ``peer effects'' involving inter-peer transmission of smoking, alcohol use and happiness tendencies
+	\item Christakis and Fowler (2007) found significant network effects on outcomes like obesity
+	\item Cohen-Cole and Fletcher (2008) use similar models and data and find similar network ``effects'' for things that \emph{aren't} contagious like acne, height and headaches
+	\item Ockham's razor - given social interaction endogeneity (Manski 1993), homophily more likely explanation
+\end{itemize}
+
+\end{frame}
+
+
+
+\section{Including Covariates}
+
+\subsection{Inverse probability weighting}
+
+\begin{frame}{Controls}
+
+\begin{itemize}
+\item Controls can address omitted variable bias (backdoor criterion), and they can improve precision
+\item OLS can accommodate controls, and so we tend to include them so long as they are time varying 
+\item But unfortunately, time varying covariates can create problems, especially if the treatment causes the covariates (bad controls, colliders)
+\end{itemize}
+
+\end{frame}
+
+
 
 
 
 
 \begin{frame}{Inverse probability weighting DiD}
 
-\begin{itemize}
-\item Abadie (2005) proposed a DiD estimator that could incorporate covariates and get an unbiased estimate of the ATT
-\item Researcher needs treatment and comparison group observed before and after treatment
-\item If treatment group units are selected based on their (observed) covariates, then baseline covariates are also needed 
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{Time varying versus time invariant covariates}
-
-\begin{itemize}
-\item In a DiD, we may need to control for X because treatment is only conditional on X
-\item But in TWFE, all time invariant covariates are absorbed by the unit fixed effects -- only time varying covariates will survive TWFE
-\item But time varying covariates place restrictions, as we will see, on the DGP and run the threat of conditioning on outcomes if they were changed by the treatment
-\item Abadie proposes using only the covariates at baseline to form weights in the simple DiD formula
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Three step method}
-
-\begin{enumerate}
-\item Compute each unit's ``after minus before'' which is the DD part
-\item Then estimate a propensity score which you'll use to weight each unit
-\item Finally, compare weighted changes in ``after minus before'' for treatment versus comparison groups
-\end{enumerate}
-
-\bigskip
-
-You can have heterogeneous treatment effects, but not differential timing
+ Abadie (2005) incorporates baseline covariates into the propensity score which are then used as weights to estimate the ATT in a simple 3-step process
+	\begin{enumerate}
+	\item Calculate each unit's ``after minus before'' (DiD equation)
+	\item Estimate the conditional probability of treatment based on baseline covariates (propensity score estimation)
+	\item Weight the comparison group's DiD equation with the IPW
+	\end{enumerate}
 
 \end{frame}
 
@@ -399,8 +863,7 @@ You can have heterogeneous treatment effects, but not differential timing
 \item $t$ is year of treatment which doesn't vary across units (so no differential timing)
 \item $Y^1$ and $Y^0$ are potential outcomes (counterfactual versus actual)
 \item $D$ is 1 or 0 based on group and time
-\item $b$ is the ``baseline'' which is similar to CS using $g$ as the one year pre-treatment
-\item $X$ are ``baseline'' covariates \textbf{only} -- they do not vary over time, which means propensity scores are estimated off the $b$ period \textbf{only}
+\item $X_b$ are ``baseline'' covariates \textbf{only} -- they do not vary over time, which means propensity scores are estimated off the $b$ period \textbf{only}
 \end{itemize}
 
 \end{frame}
@@ -458,52 +921,26 @@ E\bigg [ \frac{Y_t - Y_b}{Pr(D_t=1)} \times \frac{D_t - Pr(D=1|X_b)}{1-Pr(D=1|X_
 \begin{frame}{Propensity scores}
 
 \begin{itemize}
-\item Paper is titlted ``Semi-parametric DiD'' because Abadie imposes structure on the polynomials used to construct the propensity score
-\item You can use OLS linear probability models or series logit estimation
+\item It's common to hear people say that we don't know the propensity score; we can only estimate it. Same here -- we approximate it with regressions
+\item Paper is titled ``Semi-parametric DiD'' because Abadie imposes structure on the polynomials used to construct the propensity score (``series logit'')
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Estimating propensity scores}
-
-It's common to hear people say that we don't know the propensity score; we can only estimate it. Same here -- we approximate it with regressions
-
-\bigskip
-
-\begin{equation}
-\widehat{Pr}(X_b) = \widehat{\gamma_0} + \widehat{\gamma_1}X + \widehat{\gamma_2}X^2 + \dots \varepsilon
-\end{equation}
-
-\bigskip
-
-\begin{equation}
-\widehat{Pr}(X_b) =  F(\widehat{\gamma_0} + \widehat{\gamma_1}X + \widehat{\gamma_2}X^2 + \dots)
-\end{equation}
-
-\end{frame}
 
 
-\begin{frame}{Commentary on paper's influence}
+\begin{frame}{Abadie 2005 influence}
 
-Abadie has a great year in 2003: synthetic control in AER, semiparametric DiD in Restud, semiparametric IV (his JMP) in JoE
-
-\bigskip
-
-Semiparametric DiD has over 2,000 cites
-
-\bigskip
-
-But I'm not sure it was widely adopted by the \emph{applied} community. It seems like the \emph{applied community} starts paying attention to the econometric contributions much later, and Abadie (2003) is gaining a renaissance at the moment because of the next paper
-
-\bigskip
-
-Nonetheless, there is code in Stata called -absdid- but an unsatisfying part of the semiparametric piece is that the results change with respect to not just the estimation method (OLS or logit), but also with respect to the order in which the covariates appear
+	\begin{figure}
+	\includegraphics[scale=0.25]{./lecture_includes/abadie_restud_ipw}
+	\end{figure}Abadie (2005) is his fourth most cited paper
 
 \end{frame}
 
 
 
-\subsection{DRDiD}
+
+\subsection{Double Robust DiD}
 
 \begin{frame}{Doubly Robust Difference-in-differences}
 
@@ -523,7 +960,7 @@ Nonetheless, there is code in Stata called -absdid- but an unsatisfying part of 
 \begin{frame}{Patterns in econometrician reasoning}
 
 \begin{enumerate}
-\item Define the target parameter first (as opposed to writing down model first)
+\item Define the target parameter first (as opposed to writing down a regression specification first)
 \item Identification (e.g., parallel trends)
 \item Estimation
 \item Aggregation
@@ -555,7 +992,7 @@ Handling repeated cross-sectional data is possible but assumes modularity which 
 
 \bigskip
 
-Cross-sections will be potentially violated with changing sample compositions (see my Mixtape on the Napster example). 
+Cross-sections will be potentially violated with changing sample compositions (e.g., the Napster example). 
 
 \end{frame}
 
@@ -596,6 +1033,16 @@ Intuition of assumption 3: Called overlap or common support. Means there is at l
 \end{itemize}
 
 \end{frame}
+
+
+\begin{frame}{Heckman, et al. 1997}
+
+	\begin{figure}
+	\includegraphics[scale=0.35]{./lecture_includes/petra_restud_1997}
+	\end{figure}
+
+\end{frame}
+
 
 
 \begin{frame}{Outcome regression}
@@ -647,15 +1094,14 @@ where $\widehat{p}(X)$ is an estimator for the true propensity score. Reduces th
 \item Outcome regression needs $\widehat{\mu}(X)$ to be correctly specified, whereas
 \item Inverse probability weighting needs $\widehat{p}(X)$ to be correctly specified
 \item It's hard to ``rank'' these two in practice with regards to model misspecification because each is inconsistent when their own models are misspecified
-\item Well why don't we just use TWFE?  I've never heard anyone complain about including covariates in TWFE and I've been doing it my entire adult life, so we're good right?
-\item Depends on if you want to assume three more things. 
 \end{itemize}
 
 \end{frame}
 
+
 \begin{frame}{TWFE}
 
-Here's the TWFE specification:
+Consider our earlier TWFE specification:
 
 \begin{eqnarray*}
 Y_{it} = \alpha_1  + \alpha_2 T_t + \alpha_3 D_i +  \delta (T_i \times D_t)  + \varepsilon_{it}
@@ -823,13 +1269,15 @@ Without these six, in general TWFE will not identify ATT.
 	\end{enumerate}
 \item Problem is 1 and 2 need the models to be correctly specified
 \item Doubly robust combines them to give us insurance; we now get two chances to be wrong, as opposed to just one
-\item I'm going to only stick to the panel data expressions bc all repeated cross-section does is add in some terms (and I've not written up semiparametric bounds yet)
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Notation}
+\begin{frame}{Double Robust DiD}
+\begin{eqnarray*}
+\delta^{dr} = E \bigg [ \bigg ( \frac{D}{E[D]} -\frac{ \frac{p(X)(1-D)}{(1-p(X))} }{E \bigg [\frac{p(X)(1-D)}{(1-p(X))} \bigg ]} \bigg  )( \Delta Y - \mu_{0,\Delta}(X)) \bigg ]
+\end{eqnarray*}
 
 \begin{eqnarray*}
 &&p(x): \text{propensity score model} \\
@@ -840,7 +1288,7 @@ Without these six, in general TWFE will not identify ATT.
 
 \end{frame}
 
-\begin{frame}{Population DR DiD model for panel data}
+\begin{frame}{Double Robust DiD}
 
 \begin{eqnarray*}
 \delta^{dr} = E \bigg [ \bigg ( \frac{D}{E[D]} -\frac{ \frac{p(X)(1-D)}{(1-p(X))} }{E \bigg [\frac{p(X)(1-D)}{(1-p(X))} \bigg ]} \bigg  )( \Delta Y - \mu_{0,\Delta}(X)) \bigg ]
@@ -969,20 +1417,17 @@ Remember -- it's for 2x2 with covariates (i.e., one treatment group)
 \begin{frame}{Concluding remarks}
 
 \begin{itemize}
-\item These two papers mark a different approach than is often the case for applied researchers who simply estimate regression models and hope they recover ``reasonably weighted'' causal effects
-\item These new DiD start with target parameter and identification then build estimation
-\item TWFE, as it turns out, is not mostly harmless
+\item So we hopefully see a few of the key elements of DiD
+	\begin{itemize}
+	\item DiD equation and ATT equation are distinct
+	\item Pre-trends is a placebo for evaluating parallel trends
+	\item DiD is a design; OLS is a model
+	\end{itemize}
+\item Including covariates posed problems for the canonical OLS specification
+\item Problem with that OLS specification was \emph{the specification}, not OLS -- it assumed constant treatment effects
 \end{itemize}
 
 \end{frame}
-
-
-
-
-
-
-
-
 
 
 \end{document}

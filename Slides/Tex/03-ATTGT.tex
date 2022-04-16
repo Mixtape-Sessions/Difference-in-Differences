@@ -572,13 +572,21 @@ In other words -- CS is used to identity and aggregate heterogenous treatment ef
 
 
 
-\begin{frame}{Group-time ATT is the parameter of interest in CS}
 
+\begin{frame}{Group-time ATT}
+       \begin{columns}
+          \column{0.38\linewidth}
+             \centering
+             \includegraphics[height=6.5cm, width=5.5cm]{./lecture_includes/baker_attgt}
+           \column{0.38\linewidth}
+            Each cell contains that group's ATT(g,t)
 \begin{eqnarray*}
 ATT(g,t) = E[Y_t^1 - Y_t^0 | G_g=1]
-\end{eqnarray*}
+\end{eqnarray*}CS identifies all feasible ATT(g,t)
+         \end{columns} 
+    \end{frame}
 
-\end{frame}
+
 
 
 \begin{frame}{Group-time ATT}
@@ -586,10 +594,9 @@ ATT(g,t) = E[Y_t^1 - Y_t^0 | G_g=1]
 Group-time ATT is the ATT for a specific group and time
 \begin{itemize}
 \item Groups are basically cohorts of units treated at the same time
-\item CS will calculate an ATT per group/time which will be the sum of all $T-t_k$ for all groups (i.e., a lot)
-\item Group-time ATT estimates are not determined by the estimation method one adopts (first difference or FE) bc they are simple differences in means
+\item Group-time ATT estimates are simple (weighted) differences in means
 \item Does not directly restrict heterogeneity with respect to observed covariates, timing or the evolution of treatment effects over time
-\item Provides a way to aggregate over these to get a single ATT
+\item Allows us ways to choose our aggregations
 \item Inference is the bootstrap
 \end{itemize}
 
@@ -663,82 +670,48 @@ the ``never treated?'' ($C = 1$).
 
 
 
-\begin{frame}{Stata simulation}
+\begin{frame}{Group-time ATT }
+             \includegraphics[scale=0.45]{./lecture_includes/baker_attgt_cs}
 
-Let's now review a simulation in Stata which can be downloaded from my github repo called \texttt{baker.do}.  
-
-\bigskip
+Question: Why didn't CS estimate all ATT(g,t)? What is ``feasible ATT''?
 
 \end{frame}
 
+\begin{frame}{Reporting results}
+\begin{table}[htbp]\centering
+\small
+\caption{Estimating ATT using only pre-2004 data}
+\begin{center}
+\begin{tabular}{l*{5}{c}}
+\hline
+\multicolumn{1}{l}{\textbf{}}&
+\multicolumn{1}{c}{\textbf{(Truth)}}&
+\multicolumn{1}{c}{\textbf{(TWFE)}}&
+\multicolumn{1}{c}{\textbf{(CS)}}&
+\multicolumn{1}{c}{\textbf{(SA)}}&
+\multicolumn{1}{c}{\textbf{(BJS)}}\\
+\hline
+$\widehat{Feasible\ ATT}$  & 68.33    & 26.81 *** & 68.34*** &&\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+TWFE is no longer negative, interestingly, once we eliminate the last group (giving us a never-treated group), but is still suffering from attenuation bias. 
+
+\end{frame}
 
 
 
 \subsection{SA}
 
-
-\begin{frame}{Pre-trends}
-
-\begin{itemize}
-
-	\item The identifying assumption for all DD designs is parallel trends
-	\item Parallel trends cannot be directly verified because technically one of the parallel trends is an unobserved counterfactual
-	\item But one often will check a hunch for parallel trends using pre-trends
-	\item But, even if pre-trends are the same one still has to worry about other policies changing at the same time (omitted variable bias)
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Plot the raw data when there's only two groups}
-
-	\begin{figure}
-	\includegraphics[scale=2.5]{./lecture_includes/waldinger_dd_6.pdf}
-	\end{figure}
-
-\end{frame}
-
-
-
-\begin{frame}{Event study regression}
-	
-	\begin{itemize}
-	\item Including leads into the DD model is an easy way to analyze pre-treatment trends
-	\item Lags can be included to analyze whether the treatment effect changes over time after assignment
-	\item The estimated regression would be:$$Y_{its} = \gamma_s + \lambda_t + \sum_{\tau=-2}^{-q}\gamma_{\tau}D_{s\tau} + \sum_{\tau=0}^m\delta_{\tau}D_{s\tau}+\varepsilon_{ist}$$
-		\begin{itemize}
-		\item Treatment occurs in year 0
-		\item Includes $q$ leads or anticipatory effects
-		\item Includes $m$ leads or post treatment effects
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Medicaid and Affordable Care Act example}
+\begin{frame}{Event study and differential timing}
 
 \begin{itemize}
-\item Miller, et al. (2019) examine a rollout of Medicaid under the Affordable Care Act
-\item They link large-scale survey data with administrative death records
-\item 9.3 reduction in annual mortality caused by Medicaid expansion
-\item Driven by a reduction in disease-related deaths which grows over time
+\item Event studies with one treatment group and one untreated group were relatively straightforward
+\item Interact treatment group with calendar date to get a series of leads and lags
+\item But when there are more than one treatment group, specification challenges emerge
 \end{itemize}
-
-\end{frame}
-
-\imageframe{./lecture_includes/Miller_Medicaid1.png}
-
-\imageframe{./lecture_includes/Miller_Medicaid2.png}
-
-\imageframe{./lecture_includes/Miller_Medicaid3.png}
-
-
-\begin{frame}[plain]
-
-	\begin{figure}
-	\includegraphics[scale=0.3]{./lecture_includes/Miller_Medicaid4.png}
-	\caption{Miller, et al. (2019) estimates of Medicaid expansion's effects on on annual mortality}
-	\end{figure}
 
 \end{frame}
 
@@ -747,13 +720,13 @@ Let's now review a simulation in Stata which can be downloaded from my github re
 
 \begin{itemize}
 \item New Jersey treated in late 1992, New York in late 1993, Pennsylvania never treated
-\item Pre-treatment:
+\item What years are each state's post-treatment?
 	\begin{itemize}
-	\item New Jersey: $<$1992
-	\item New York: $<$1993
-	\item Pennsylvania: undefined
+	\item New Jersey: post-1992
+	\item New York: post-1993
+	\item Pennsylvania: ?
 	\end{itemize}
-\item So how do we check parallel leads?
+\item How did people go about event studies then?
 
 \end{itemize}
 
@@ -768,7 +741,7 @@ Let's now review a simulation in Stata which can be downloaded from my github re
 
 \end{frame}
 
-\begin{frame}{Randomized control counties to receive arbitrary dates as treatment can be misleading}
+\begin{frame}{Replicated from a project of mine}
 
 	\begin{figure}
 	\includegraphics[scale=0.5]{./lecture_includes/dd.pdf}
@@ -777,33 +750,36 @@ Let's now review a simulation in Stata which can be downloaded from my github re
 
 \end{frame}
 
+\begin{frame}{Canonical event study specification with TWFE}
 
+
+\begin{eqnarray*}
+Y_{i,t} = \alpha_i + \delta_t + \sum_{g \in G} \mu_g1\{t-E_i \in g \} + \varepsilon_{i,t}
+\end{eqnarray*}
+
+\bigskip
+
+Coefficient $\mu_g$ on a dummy measuring the number of years prior to or after that unit was treated.  This model, it turned out, suffered from model misspecification. 
+
+\end{frame}
 
 \begin{frame}[plain]
 	\begin{figure}
 	\includegraphics[scale=0.5]{./lecture_includes/br1544.pdf}
 	\end{figure}
 	
-Same data as a couple slides ago, leads don't look good
+Same data as a couple slides ago, leads don't look good, so I abandoned the project. 
 	
 \end{frame}
+
+
 
 
 
 \begin{frame}{Sun and Abraham 2020}
 
 \begin{itemize}
-\item Recall our discussion of event studies estimated with TWFE under differential timing
-\item Now that we know about the biases of TWFE when estimating aggregate DD parameters, let's revisit event studies under differential timing
-\item Callaway and Sant'Anna (2020) propose alternative estimators for event studies that estimate group-time ATT in relative event time
-\item But now we will discuss Sun and Abraham (2020) [SA] which is like a blend of Goodman-Bacon's decomposition and Callaway and Sant'anna alternative estimator to TWFE
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Summarizing}
-
-\begin{itemize}
+\item Now that we know about the biases of the constant treatment effect model estimated with TWFE, let's revisit event studies under differential timing
 \item Goodman-Bacon (2021, forthcoming) focused on decomposition of TWFE to show bias under differential timing
 \item Callaway and Sant'anna (2020) presents alternative estimator that yields unbiased estimates of group-time ATTs which can be aggregated or put into event study plots
 \item Sun and Abraham (SA) is like a combination of the two papers
@@ -817,7 +793,7 @@ Same data as a couple slides ago, leads don't look good
 	\begin{enumerate}
 	\item SA is a decomposition of the population regression coefficient on event study leads and lags with differential timing estimated with TWFE
 	\item They show that the population regression coefficient is ``contaminated'' by information from other leads and lags
-	\item SA presents an alternative estimator that is not so dissimilar to CS
+	\item SA presents an alternative estimator that is a version of CS only using the ``last cohort'' as the treatment group (not the not-yet-treated)
 	\end{enumerate}
 
 \end{frame}
@@ -825,53 +801,31 @@ Same data as a couple slides ago, leads don't look good
 \begin{frame}{Summarizing (cont.)}
 
 \begin{itemize}
-\item Problems seem to occur with DD when we introduce treatment effect heterogeneity
-%\item Leads and lags in the event study estimated with TWFE are contaminated by treatment effects, oddly enough, from other relative periods
-\item Under treatment effect heterogeneity, spurious non-zero positive lead coefficients even when there is no pretrend
-\item This problem is exacerbated by the TWFE related weights as under some scenarios, the weights sum to zero and``cancel out'' the treatment effects from other periods 
+\item Under homogenous treatment profiles, weights sum to zero and``cancel out'' the treatment effects from other periods 
+\item Under treatment effect heterogeneity, they do not cancel out and leads and lags are biased
 \item They present a 3-step TWFE based alternative estimator which addresses the problems that they find
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Summarizing (cont.)}
+
+\begin{frame}{Some notation and terms}
 
 \begin{itemize}
-\item Only decomposition of TWFE estimating dynamic leads and lags (Goodman-Bacon focused on a ``static'' specification)
-\item Contamination of coefficients on leads and lags by treatment effects depends on the magnitude of the weights on the true group-time ATT, or ``cohort-specific ATT''
-\item Weights are a function of cohort composition
-\item Examining weights lets you gauge how treatment effect heterogeneity would interact with potential non-zero and non-convex weighting in population regression coefficients on the leads and lags
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{Difficult notation sadly}
-
-\begin{itemize}
-\item When treatment occurs at the same time, we say they are part of the same cohort, $e$
-\item If we bin the data, then a lead or lag $l$ will appear in the bin $g$ so sometimes they use $g$ instead of $l$ or $l \in g$
-\item Building block is the ``cohort-specific ATT'' or $CATT_{e,l}$ -- same thing as CS group-time ATT
-\item Estimate $CATT_{e,l}$ with population regression coefficient $\mu_l$
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{Difficult notation (cont.)}
-
-\begin{itemize}
-\item At each time $t$ there are two possible treatment status $D_{i,t} \in \{0,1\}$ over $T+1$ time periods
-\item Path of treatment status scales exponentially with $T$ and  an take on $2^{T+1}$ possible values
+\item As people often \textbf{bin} the data, we allow a lead or lag $l$ to appear in bin $g$ so sometimes they use $g$ instead of $l$ or $l \in g$
+\item Building block is the ``cohort-specific ATT'' or $CATT_{e,l}$ -- same as ATT(g,t)
+\item Our goal is to estimate $CATT_{e,l}$ with population regression coefficient $\mu_l$
 \item They focus on irreversible treatment where treatment status is non-decreasing sequence of zeroes and ones
 \end{itemize}
 
 \end{frame}
 
+
+
 \begin{frame}{Difficult notation (cont.)}
 
 \begin{itemize}
-\item If a group is never treated, the $\infty$ symbol is used to either describe the group ($E_i=\infty$) or the potential outcome ($Y^{\infty}$)
+\item The $\infty$ symbol is used to either describe the group ($E_i=\infty$) or the potential outcome ($Y^{\infty}$)
 \item $Y^{\infty}_{i,t}$ is is the potential outcome for unit $i$ if it had never received treatment (versus received it later), also called the baseline outcome
 \item Other counterfactuals are possible -- maybe unit $i$ isn't ``never treated'' but treated later in counterfactual
 \end{itemize}
@@ -888,6 +842,16 @@ Same data as a couple slides ago, leads don't look good
 
 \end{frame}
 
+\begin{frame}{Relative vs calendar event time}
+
+
+\begin{figure}
+\includegraphics[scale=0.2]{./lecture_includes/timetil}
+\end{figure}
+
+\end{frame}
+
+
 \begin{frame}{Definition 1}
 
 \textbf{Definition 1:} The cohort-specific ATT $l$ periods from initial treatment date $e$ is:
@@ -896,38 +860,49 @@ Same data as a couple slides ago, leads don't look good
 CATT_{e,l} = E[Y_{i,e+l} - Y^{\infty}_{i,e+l} | E_i=e]
 \end{eqnarray*}
 
+\bigskip
+
+Fill out the second part of the Group-time ATT exercise together.
+
+\end{frame}
+
+\begin{frame}{TWFE assumptions}
+
+\begin{itemize}
+\item For consistent estimates of the coefficient leads and lags using TWFE model, we need three assumptions
+\item For SA and CS, we only need two
+\item Let's look then at the three
+\end{itemize}
+
 \end{frame}
 
 
-\begin{frame}{Identifying assumption 1}
+\begin{frame}{Assumption 1: Parallel trends}
 
 \textbf{Assumption 1: Parallel trends in baseline outcomes}: $E[Y^{\infty}_{i,t} - Y^{\infty}_{i,s} | E_i = e ]$ is the same for all $e \in supp(E_i)$ and for all $s$, $t$ and is equal to $E[Y^{\infty}_{i,t} - Y^{\infty}_{i,s} ]$
 
 \bigskip
 
-Interesting SA comment: Never-treated units are likely to differ from ever-treated units in many ways; think of a Roy model.  What does it imply that they chose not to get treated? It may imply net negative treatment effects and that could mean they may not share the same evolution of baseline outcomes as the treatment groups. If you think they are unlikely to satisfy this assumption, then drop them.  Almost like a synthetic control approach.
+Lead and lag coefficients are DiD equations but once we invoke parallel trends they can become causal parameters.  This reminds us again how crucial it is to have  appropriate controls
 
 \end{frame}
 
 
-\begin{frame}{Assumption 2}
+\begin{frame}{Assumption 2: No anticipation}
 
 \textbf{Assumption 2: No anticipator behavior in pre-treatment periods}: There is a set of pre-treatment periods such that $E[Y_{i,e+l}^e - Y_{i,e+l}^{\infty} | E_i = e]=0$ for all possible leads.
 
 \bigskip
 
-Basically means that potential outcomes prior to treatment at baseline by on average the same.  This means there is no pre-trends, essentially.  This is most plausible if the full treatment paths are not known to the units (e.g., Craigslist opening erotic services without announcement)
+Essentially means that pre-treatment, the causal effect is zero.  Most plausible if no one sees the treatment coming, but even if they see it coming, they may not be able to make adjustments that affect outcomes
 
 \end{frame}
 
 
-\begin{frame}{Assumption 3}
+\begin{frame}{Assumption 3: Homogeneity}
 
-\textbf{Assumption 3: Treatment effect homogeneity}: For each relative time period $l$, the $CATT_{e,l}$ doesn't depend on the cohort and is equal to $CATT_l$. 
+\textbf{Assumption 3: Treatment effect profile homogeneity}: For each relative time period $l$, the $CATT_{e,l}$ doesn't depend on the cohort and is equal to $CATT_l$. 
 
-\bigskip
-
-Assumption 3 requires each cohort experience the same path of treatment effects. Treatment effects need to be the same across cohorts in every relative period for homogeneity to hold, whereas for heterogeneity to occur, treatment effects just need to differ across cohorts in one relative time period.  Doesn't preclude dynamic treatment effects, though.  It just imposes that cohorts share the same treatment path.
 
 \end{frame}
 
@@ -941,16 +916,11 @@ Assumption 3 requires each cohort experience the same path of treatment effects.
 
 \end{frame}
 
-\begin{frame}{TWFE Regression}
+\begin{frame}{Event study model}
 
 \begin{eqnarray*}
 Y_{i,t} = \alpha_i + \delta_t + \sum_{g \in G} \mu_g1\{t-E_i \in g \} + \varepsilon_{i,t}
 \end{eqnarray*}
-
-
-\bigskip
-
-They say $E_i$ is the initial time of a binary variable absorbing treatment for unit $i$. Fixed effects should be obvious.  $\mu_g$ is the population regression coefficient on the leads and lags that we want to estimate. We estimate this using OLS and get $\widehat{\mu_g}$. 
 
 \bigskip
 
@@ -968,23 +938,20 @@ How will we specify the $1\{t-E_i \in g \} $ term?  SA considers a couple:
 \item Dynamic specification: $$Y_{i,t} = \alpha_i + \delta_t + \sum_{l = -K}^{-2} \mu_l D^l_{i,t} + \sum_{l=0}^L\mu_lD^l_{i,t}+ \varepsilon_{i,t}$$
 \end{enumerate}
 
-
 \end{frame}
 
 
-\begin{frame}{Multicollinearity}
 
-Dynamic specification requires deciding which leads to drop.  They recommend dropping two: $l=-1$ and some other one (they seem to favor $l=-4$).  The reason is twofold. You drop one of them to avoid multicollinearity in the relative time indicators. You drop a second one because of the multicollinearity coming from the linear relationship between TWFE and the relative period indicators.
-
-\end{frame}
-
-\begin{frame}{Trimming and binning}
+\begin{frame}{Dropping, trimming and binning}
 
 \begin{itemize}
-\item First some terms: trimming and binning, I do both in the Mixtape when analyzing Cheng and Hoekstra (2013)
-\item Binning means placing all ``distant'' relative time indicators into a single one.  Done because of the sparseness of units in such distant bins. So if there's 3 distant leads and lags that aren't balanced, combine them all into the last lead and lag
-\item Trimming means excluding any relative period for which you don't have balance in relative time. This creates a balanced panel ``in relative time'', but imbalanced panel length overall. 
-\item They'll analyze both and how they affect $\widehat{\mu_g}$ estimation using TWFE
+\item Dynamic specification with differential timing requires dropping two leads: 
+	\begin{enumerate}
+	\item Drop the baseline to avoid multicollinearity in the relative time indicators 
+	\item Drop a second one because of the multicollinearity coming from the linear relationship between TWFE and the relative period indicators.
+	\end{enumerate}
+\item Binning means placing all ``distant'' relative time indicators into a single one due to imbalance in relative event time
+\item Trimming is done for the same reason but drops any relative time period for which you do not have balance
 \end{itemize}
 
 \end{frame}
@@ -997,14 +964,13 @@ Dynamic specification requires deciding which leads to drop.  They recommend dro
 \textbf{Proposition 1 (no assumptions):} The population regression coefficient on relative period bin $g$ is a linear combination of differences in trends from its own relative period $l \in g$, from relative periods $l \in g'$ of other bins $g' \neq g$, and from relative periods excluded from the specification (e.g., trimming). 
 
 \begin{eqnarray*}
-\mu_g &=& \underbrace{\sum_{l \in g} \sum_{e} w^g_{e,l} \big ( E[Y_{i,e+l} - Y^{\infty}_{i,0} | E_i = e] - E[Y^{\infty}_{i,e+l} - Y^{\infty}_{i,0}] \big )}_{\mathclap{\text{Good stuff}}} \\
-&+& \underbrace{\sum_{g' \neq g} \sum_{l \in g'} \sum_e w^g_{e,l} \big ( E[Y_{i,e+l} - Y^{\infty}_{i,0} | E_i=e] - E[Y^{\infty}_{i,e+l} - Y^{\infty}_{i,0}] \big )}_{\mathclap{\text{Bleh -- Other included relative time}}} \\
-&+&  \underbrace{\sum_{l \in g^{excl}} \sum_{e} w^g_{e,l} \big ( E[Y_{i,e+l} - Y^{\infty}_{i,0} | E_i=e] - E[Y^{\infty}_{i,e+l} - Y^{\infty}_{i,0}] \big )}_{\mathclap{\text{More bleh -- Excluded}}} 
+\mu_g &=& \underbrace{\sum_{l \in g} \sum_{e} w^g_{e,l} \big ( E[Y_{i,e+l} - Y^{\infty}_{i,0} | E_i = e] - E[Y^{\infty}_{i,e+l} - Y^{\infty}_{i,0}] \big )}_{\mathclap{\text{Targets}}} \\
+&+& \underbrace{\sum_{g' \neq g} \sum_{l \in g'} \sum_e w^g_{e,l} \big ( E[Y_{i,e+l} - Y^{\infty}_{i,0} | E_i=e] - E[Y^{\infty}_{i,e+l} - Y^{\infty}_{i,0}] \big )}_{\mathclap{\text{Contamination from other leads and lags}}} \\
+&+&  \underbrace{\sum_{l \in g^{excl}} \sum_{e} w^g_{e,l} \big ( E[Y_{i,e+l} - Y^{\infty}_{i,0} | E_i=e] - E[Y^{\infty}_{i,e+l} - Y^{\infty}_{i,0}] \big )}_{\mathclap{\text{Contamination from dropped periods}}} 
 \end{eqnarray*}
 
 \bigskip
 
-Superscript $g$ associates the weight with coefficient $\mu_g$. The weight associated with cohort $e$ in relative period $l$ is equal to the population regression coefficient on the $1 \{t-E_i \in g \}$ from regression $D_{i,t}^l \times 1\{ E_i=e \}$ on all bin indicators included in the regression and TWFE. Just the mechanics of double demeaning from TWFE
 
 \end{frame}
 
@@ -1034,43 +1000,22 @@ Regress $D^l_{i,t} \times 1\{E_i=e \}$ on:
 \end{frame}
 
 
-\begin{frame}{Interpretation of coefficients under parallel trends only}
+\begin{frame}{Still biased under parallel trends}
 
 \textbf{Proposition 2}: Under the parallel trends only, the population regression coefficient on the indicator for relative period bing $g$ is a linear combination of $CATT_{e,l \in g}$ as well as $CATT_{d,l'}$ from other relative periods $l' \notin g$ with the same weights stated in Proposition 1:
 
 \begin{eqnarray*}
 \mu_g &=& \underbrace{\sum_{l \in g} \sum_e w^g_{e,l} CATT_{e,l}}_{\mathclap{\text{Desirable}}} \\
-&& + \underbrace{\sum_{g' \neq g, g' \in G} \sum_{l' \in g'} \sum_e w^g_{e,l'}  CATT_{e,l'}}_{\mathclap{\text{Undesirable -- other specified bins}}} \\
-&&+ \underbrace{\sum_{l' \in g^{excl}} \sum_e w^g_{e,l'} CATT_{e,l'}}_{\mathclap{\text{Undesirable -- excluded relative time indicators}}}
+&& + \underbrace{\sum_{g' \neq g, g' \in G} \sum_{l' \in g'} \sum_e w^g_{e,l'}  CATT_{e,l'}}_{\mathclap{\text{Bias from other specified bins}}} \\
+&&+ \underbrace{\sum_{l' \in g^{excl}} \sum_e w^g_{e,l'} CATT_{e,l'}}_{\mathclap{\text{Bias from dropped relative time indicators}}}
 \end{eqnarray*}
 
 
 
 \end{frame}
 
-\begin{frame}{Comment on Proposition 2}
 
-The coefficient $\mu_g$ can be written as an average of $CATT_{e,l}$ from own periods but also $CATT_{e,l'}$ from other periods.
-
-\bigskip
-
-The weights are still functions of cohort comparisons, like in Proposition 1, which means $\mu_g$ can be written as non-convex averages of not only $CATT_{e,l}$ from own periods $l \in g$, but also $CATT_{e,l'}$ from other periods. 
-
-\bigskip 
-
-Means $\mu_g$ could in fact be the wrong sign to all $CATT_{e, l\in g}$. 
-
-\bigskip
-
-Weights can help us gauge the severity of this problem. 
-
-\bigskip
-
-When the weights have larger magnitude, treatment effect heterogeneity matters more as a particular $CATT_{e,l}$ can drive the overall estimates. But when weights are uniform, treatment effect heterogeneity matters less.
-\end{frame}
-
-
-\begin{frame}{Interpretation under parallel trends and no anticipation}
+\begin{frame}{Still biased under parallel trends and no anticipation}
 
 \textbf{Proposition 3}: If parallel trends holds and no anticipation holds for all $l<0$ (i.e., no anticipatory behavior pre-treatment), then the population regression coefficient $\mu_g$ for $g$ is a linear combination of post-treatment $CATT_{e,l'}$ for all $l' \geq 0$.
 
@@ -1101,41 +1046,15 @@ Notice how once we impose zero pre-treatment treatment effects, those terms are 
 
 \end{frame}
 
-\begin{frame}{Proposition 4 comment}
+\begin{frame}{Simple example}
 
-The weight $w^g_l = \sum_ew^g_{e,l}$ sums over the weights $w^g_{e,l}$ from Proposition 1 and is equal to the population regression coefficient from the following auxiliary regression:
 
-\begin{eqnarray*}
-D^l_{i,t} = \alpha_i + \lambda_t + \sum_{g \in G} w^g_l \cdot 1\{t-E_i \in g \} + u_{i,t}
-\end{eqnarray*}which regresses $D^l_{i,t}$ on all bin indicators and TWFE
-
-\end{frame}
-
-\begin{frame}{On binning}
-
-\begin{itemize}
-\item Many propose either binning or trimming to create ``balanced'' panels (in relative event time)
-\item But SA notes that binning in simulations creates uninterpretable weights (due to the binned $CATT_{e,l'}$ inclusion in $\mu_g$), whereas trimming creates weights that are more reasonable
-\item This may be because trimming subtracts the corresponding $CATT_{e,l'}$ from $\mu$ regression coefficient
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Intuition for contamination}
-
-\begin{itemize}
-\item Stupid notation make Hulk smash!
-\item Let's do a simple toy example instead
-\end{itemize}
-
-\bigskip
-
-Balanced panel $T=2$ with cohorts $E_i \in \{1,2 \}$. We drop two relative time periods to avoid multicollinearity, so we will include bins $\{-2,0\}$ and drop $\{-1,1\}$. 
+Balanced panel $T=2$ with cohorts $E_i \in \{1,2 \}$. For illustrative purposes, we will include bins $\{-2,0\}$ in our calculations but drop $\{-1,1\}$. 
 
 
 \end{frame}
 
-\begin{frame}{Toy example}
+\begin{frame}{Simple example}
 
 \begin{eqnarray*}
 \mu_{-2} &=& \underbrace{CATT_{2,-2}}_{\mathclap{\text{own period}}} + \underbrace{\frac{1}{2}CATT_{1,0} - \frac{1}{2} CATT_{2,0}}_{\mathclap{\text{other included bins}}} \\
@@ -1152,16 +1071,20 @@ Balanced panel $T=2$ with cohorts $E_i \in \{1,2 \}$. We drop two relative time 
 
 \end{frame}
 
-\begin{frame}{Interaction-weighted estimator}
+
+\begin{frame}{Robust event study estimation}
+
 
 \begin{itemize}
-\item They propose an interacted weighted estimator (IW) as a consistent estimator for $\mu_g$
-\item Estimator uses either never-treated as controls or ``last cohort treated'' if no never-treated (contra CS which uses ``not yet treated'')
-\item No covariates bc this is a regression with fixed effects and time-varying covariates create own biases, although they note you can plug in CS for the DD calculation and recover $CATT$ that way
-\item The interaction is a TWFE regression specification that interacts relative period indicators with cohort/group indicators, excluding indicators for never-treated cohorts
+\item All the robust estimators under differential timing have solutions and they all skip over forbidden contrasts. 
+\item Sun and Abraham (2020) propose a 3-step interacted weighted estimator (IW) using last treated group as control group
+\item Callaway and Sant'anna (2020) estimate group-time ATT which can be a weighted average over relative time periods too but uses ``not-yet-treated'' as control
 \end{itemize}
 
 \end{frame}
+
+
+
 
 \begin{frame}{Interaction-weighted estimator}
 
@@ -1193,7 +1116,7 @@ Pr(E_i=e|E_i \in [-l,T-l])
 
 \end{frame}
 
-\begin{frame}{IW estimator}
+\begin{frame}{Interaction-weighted estimator}
 
 \begin{itemize}
 \item \textbf{Step three}: Take a weighted average of estimates for $CATT_{e,l}$ from Step 1 with weight estimates from step 2
@@ -1241,18 +1164,47 @@ Pr(E_i=e|E_i \in [-l,T-l])
 
 \end{frame}
 
-\begin{frame}{Conclusion of SA}
 
-\begin{itemize}
-\item Bacon shows the TWFE coefficient on the static parameter is ``contaminated'' by other periods leads and lags
-\item Three strong assumptions needed for TWFE to be unbiased: parallel trends, no anticipation, and treatment homogeneity
-\item SA doesn't restrict to treatment profile homogeneity, though; very similar to CS
-\item SA is a three step interaction-weighted estimator 
-\item Callaway and Sant'Anna (2020) uses not-yet-treated or never treated, but Sun and Abraham (2020) uses last-treated or never treated
-\end{itemize}
+\begin{frame}{Reporting results}
+\begin{table}[htbp]\centering
+\small
+\caption{Estimating ATT}
+\begin{center}
+\begin{tabular}{l*{5}{c}}
+\hline
+\multicolumn{1}{l}{\textbf{}}&
+\multicolumn{1}{c}{\textbf{(Truth)}}&
+\multicolumn{1}{c}{\textbf{(TWFE)}}&
+\multicolumn{1}{c}{\textbf{(CS)}}&
+\multicolumn{1}{c}{\textbf{(SA)}}&
+\multicolumn{1}{c}{\textbf{(BJS)}}\\
+\hline
+$\widehat{Feasible\ ATT}$  & 68.33    & 26.81*** & 68.34*** & 68.33***&\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
 \end{frame}
 
+\begin{frame}{Computing relative event time leads and lags }
+             \includegraphics[scale=0.45]{./lecture_includes/sa_leads}
+
+Two things to notice: (1) there only 17 lags with robust models but will be 24 with TWFE; (2) changing colors mean what?
+
+\end{frame}
+
+\begin{frame}{Comparing TWFE and SA }
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.4]{./lecture_includes/twfe_sa_event}
+\end{center}
+\end{figure}
+
+Question: why is TWFE \emph{falling} pre-treatment?  Why is SA rising, but jagged, post-treatment?
+
+\end{frame}
 
 
 \subsection{dCH}

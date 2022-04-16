@@ -306,42 +306,103 @@ p\text{ }lim\text{ } \widehat{\delta}^{TWFE}_{n\to\infty} &=& VWATT + VWPT - \De
 \begin{itemize}
 \item Notice the number of assumptions needed \emph{even} to estimate this very strange weighted ATT (which is a function of how you drew the panel in the first place). 
 \item With dynamics, it attenuates the estimate (bias) and can even reverse sign depending on the magnitudes of what is otherwise effects in the sign in a reinforcing direction! 
-\item Let's look at each of these three parts more closely
+\item Model can flip signs (does not satisfy a ``no sign flip property'')
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Variance weighted ATT}
 
-\begin{eqnarray*}
-VWATT &=& \sum_{k \neq U} \sigma_{kU} ATT_k(Post(k))\\
-&+& \sum_{k \neq U} \sum_{l>k} \sigma_{kl} \bigg [ \mu_{kl} ATT_k (MID)+ (1-\mu_{kl}) ATT_{l} (POST(l)) \bigg ]
-\end{eqnarray*}where $\sigma$ is like $s$ only population terms not samples.  
+\subsection{Simulation}
+
+\begin{frame}{Simulated data}
+
 \begin{itemize}
-\item Weights sum to one. 
-\item Note, if all the ATT are identical, then the weighting is irrelevant. 
-\item But otherwise, it's basically weighting each of the individual sets of ATT we have been discussing, where weights depend on group size and variance
+\item 1000 firms, 40 states, 25 firms per states, 1980 to 2009 or 30 years, 30,000 observations, four groups
+\item $E[Y^0]$ satisfies ``strong parallel trends''  (stronger than necessary)
+
+$$Y^0_{ist} = \alpha_i + \gamma_t + \varepsilon_{ist}$$
+
+\item Also no anticipation of treatment effects until treatment occurs but does \emph{not} guarantee homogenous treatment effects
 \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Group-time ATT}
+       \begin{columns}
+          \column{0.38\linewidth}
+             \centering
+             \includegraphics[height=6.5cm, width=5.5cm]{./lecture_includes/baker_attgt}
+           \column{0.48\linewidth}
+		\begin{itemize}
+\item Heterogenous treatment effects across time and across groups
+\item Cells are called ``group-time ATT'' (Callaway and Sant'anna 2020) or ``cohort ATT'' (Sun and Abraham 2020)
+\item ATT is weighted average of all cells and $+82$ with uniform weights $1/60$
+		\end{itemize}
+         \end{columns} 
+    \end{frame}
+
+\begin{frame}{Estimation}
+
+\bigskip
+
+Estimate the following equation using OLS:
+
+$$Y_{ist} = \alpha_i + \gamma_t +\delta D_{it} + \varepsilon_{ist}$$
+
+
+\begin{table}[htbp]\centering
+\small
+\caption{Estimating ATT with different models}
+\begin{center}
+\begin{tabular}{l*{5}{c}}
+\hline
+\multicolumn{1}{l}{\textbf{}}&
+\multicolumn{1}{c}{\textbf{Truth}}&
+\multicolumn{1}{c}{\textbf{(TWFE)}}&
+\multicolumn{1}{c}{\textbf{(CS)}}&
+\multicolumn{1}{c}{\textbf{(SA)}}&
+\multicolumn{1}{c}{\textbf{(BJS)}}\\
+\hline
+$\widehat{ATT}$  & 82    & -6.69*** &&&\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+The sign flipped.  Why?  Because of \emph{extreme} dynamics (i.e., $- \Delta ATT$)
 
 \end{frame}
 
-\begin{frame}{Variance weighted parallel trends}
+\begin{frame}{Bacon decomposition}
+\begin{table}[htbp]\centering
+\small
+\caption{Bacon Decomposition (TWFE $= -6.69$)}
+\begin{center}
+\begin{tabular}{l*{5}{c}}
+\hline
+\multicolumn{1}{l}{\textbf{DD Comparison}}&
+\multicolumn{1}{l}{\textbf{Weight}}&
+\multicolumn{1}{l}{\textbf{Avg DD Est}}\\
+\hline
+Earlier T vs. Later C  &     0.500   &       51.800 \\
+Later T vs. Earlier C   &    0.500    &     -65.180 \\
+\midrule
+T $=$ Treatment; C$ =$ Comparison \\
+$(0.5*51.8) + (0.5*-65.180) = -6.69$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
-\begin{eqnarray*}
-VWPT &=& \sum_{k \neq U} \sigma_{kU} \bigg [ \Delta Y_k^0(Post(k),Pre) - \Delta Y_U^0(Post(k),Pre) \bigg ] \\
-&+& \sum_{k \neq U} \sum_{l>k} \sigma_{kl} \bigg [ \mu_{kl} \{ \Delta Y^0_k(Mid,Pre(k)) - \Delta Y_l^0(Mid,Pre(k))\} \\
-&+&(1-\mu_{kl}) \{ \Delta Y^0_l(Post(l), Mid) - \Delta Y^0_k(Post(l), Mid) \} \bigg ]
-\end{eqnarray*}There are $K^2$ parallel trends inside the weights. Their weighted average must equal zero.
+\bigskip
+
+While large weight on the ``late to early 2x2'' is \emph{suggestive} of an issue, these would appear even if we had constant treatment effects
 
 \end{frame}
 
-\begin{frame}{Heterogeneity bias}
 
-\begin{eqnarray*}
-\Delta ATT = \sum_{k \neq U} \sum_{l>k} (1 - \mu_{kl}) \bigg [ ATT_k(Post(l) - ATT_k(Mid)) \bigg ]
-\end{eqnarray*}Now, if the ATT is constant over time, then this difference is zero, but what if the ATT is not constant? Then TWFE is biased, and depending on the dynamics and the VWATT, may even flip signs
-\end{frame}
 
 \subsection{Castle doctrine reform}
 
@@ -459,7 +520,7 @@ Main data: FBI Uniform Crime Reports Part 1 Offenses (2000-2010)
 
 \subsection{CS}
 
-\begin{frame}{Imbens and Rubin 2015}
+\begin{frame}{Causal inference is imputation}
 
 \begin{quote}
 ``At some level, all methods for causal inference can be viewed as imputation methods, although some more explicitly than others.'' -- Imbens and Rubin (2015)
@@ -472,48 +533,38 @@ Main data: FBI Uniform Crime Reports Part 1 Offenses (2000-2010)
 
 \begin{itemize}
 \item Causal inference is a missing data problem -- we are missing counterfactuals
-\item Recall that estimating the ATT necessarily involved correctly imputing the counterfactual using parallel trends
+\item And recall that estimating the ATT necessarily involved correctly imputing the counterfactual using parallel trends
 \item OLS, therefore, is \emph{implicitly} imputing counterfactuals for estimating the ATT
-\item We'll review a few studies that do this
 \end{itemize}
 
 \end{frame}
-
 
 
 \begin{frame}{Callaway and Sant'Anna 2020}
 
-\begin{itemize}
-\item New papers are coming out focused on the issues that we are seeing with TWFE
-\item I'll discuss one though by Callaway and Sant'anna (2020) due to time constraints (call it CS)
-\item If we have time, I'll run through a simulation illustrating both the bias of TWFE and the unbiased estimation of this CS estimator
-\item Interesting ancestry -- CS is a descendent of Abadie (2005) from earlier
+CS is a DiD model used for estimating ATT parameters under differential timing and conditional parallel trends
 
-\end{itemize}
 
-\end{frame}
-
-\begin{frame}{Preliminary}
-
-CS considers identification, aggregation, estimation and inference procedures for ATT in DD designs with
-
-\begin{enumerate}
-\item multiple time periods
-\item variation in treatment timing (i.e., differential timing)
-\item parallel trends only holds after conditioning on observables
-\end{enumerate}
+\begin{figure}
+\includegraphics[scale=0.25]{./lecture_includes/pedro_cites}
+\end{figure}
 
 \end{frame}
 
-\begin{frame}{When might you use this estimator}
 
-Probably in the very situations describing your own study
+\begin{frame}{When is CS used}
+
+Just some examples of when you'd want to consider it:
 \begin{enumerate}
-\item When treatment effects heterogenous by time of adoption
+\item When treatment effects differ depending on when it was adopted
 \item When treatment effects change over time
-\item When shortrun effects more pronounced than longrun effects
+\item When shortrun treatment effects more pronounced than longrun effects
 \item When treatment effect dynamics differ if people are first treated in a recession relative to expansion years
 \end{enumerate}
+
+\bigskip
+
+In other words -- CS is used to identity and aggregate heterogenous treatment effects
 
 \end{frame}
 

@@ -10,4 +10,4 @@ set scheme cleanplots
 
 tsset sid year
 
-did_imputation l_homicide sid year effyear, autosample horizons(0/5) pretrend(1/5) minn(0)	
+did_imputation l_homicide sid year effyear, allhorizons pretrend(5)

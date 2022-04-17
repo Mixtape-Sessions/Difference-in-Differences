@@ -24,7 +24,7 @@ atts <- att_gt(yname = "l_homicide", # LHS variable
                panel = TRUE) # whether the data is panel or repeated cross-sectional
 
 # Aggregate ATT
-agg_effects <- aggte(atts, type = "group")
+agg_effects <- aggte(atts, type = "simple")
 summary(agg_effects)
 
 # Group-time ATTs

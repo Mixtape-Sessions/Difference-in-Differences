@@ -43,30 +43,13 @@
 \subsection{Imputation based robust estimator}
 
 
-\begin{frame}{Imputation}
-
-
-Some methods are more obviously imputations than others though. 
-
-\bigskip
-
- I will consider something explicit imputation if it constructs counterfactual observations at the unit level, as opposed to implicit imputation (e.g., manual aggregation) which tends to directly estimate ATT measures such as CS. 
-
-
-\bigskip
-
-We will discuss three explicit imputation methods: Borusyak, Jaravel and Spiess (2021) robust imputation estimator and Gardner (2021) two stage DiD 
-
-\end{frame}
-
-
 
 \begin{frame}{Background}
 
 \begin{itemize}
-\item First ``new did'' paper was Borusyak and Jaravel (2017) -- a lot of what was simultaneously discovered elsewhere was in that paper
+\item First ``new diff-in-diff'' paper was Borusyak and Jaravel (2016) -- a lot of what was simultaneously discovered elsewhere was in that paper
 \item We will discuss its successor -- Borusyak, Jaravel and Spiess (2021)
-\item My interpretation: damning critique of OLS TWFE and a robust solution based on explicit imputation
+\item As a lot of this has already been elaborated on, I'm going to focus primarily on the estimator
 \end{itemize}
 
 \end{frame}
@@ -82,23 +65,8 @@ We will discuss three explicit imputation methods: Borusyak, Jaravel and Spiess 
 
 \end{frame}
 
-\begin{frame}{Broad view}
 
-\begin{itemize}
-\item Under three standard DiD assumptions, TWFE OLS performs fine
-\item No anticipation creates some challenges for event studies that requires tweaks
-\item But one of them (treatment effect homogeneity) introduces major problems
-\item Remember: theirs was the first to bring attention to what happens when treatment effect heterogeneity occurs
-\item After detailed critique of TWFE OLS, they roll out a robust estimator
-\item BLUE like characteristics
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{What are we after?}
-A key flavor of the new DiD papers is not merely to assume TWFE OLS recovers ``reasonable'' weighted averages of treatment effects, but to begin by explicitly naming the target parameter.  Under what assumptions can we identify $\tau_w$?
-
-\bigskip
+\begin{frame}{ATT parameter}
 
 Estimation target:
 
@@ -108,8 +76,7 @@ Estimation target:
 
 \bigskip
 
-Weights need not add up to one.  Weights could be $\frac{1}{N}$ for all $it \in \Omega_1$.We have a number of options. 
-
+Weights need not add up to one.  Weights could be $\frac{1}{N}$ for all $it \in \Omega_1$. We have a number of options. 
 
 
 \end{frame}
@@ -125,21 +92,9 @@ $$Y_{it}(0) = \alpha_i + \beta_t + \varepsilon_{it}$$with $$E[\varepsilon_{it}]=
 \begin{frame}{A2: No anticipation}
 
 \begin{itemize}
-\item We saw this with SA, but I think it occurred slightly earlier with BJ (not sure)
-\item No anticipation effects means there are no treatment effects prior to the event date$$Y_{it} = Y_{it}(0)$$ for all $it \in \Omega_0$. 
-\item I think this is probably ruling out ``Ashenfelter's dip''
-\item It's also an extension of SUTVA if I'm not mistaken because SUTVA requires that your outcome is a function of your current treatment status not your future treatment status
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{A2: No anticipation (continued)}
-
-\begin{itemize}
+\item No anticipation rules out anticipatory behavior that would cause treatment effects to materialize even before the treatment occurred:$$Y_{it} = Y_{it}(0)$$ for all $it \in \Omega_0$. 
 \item Notice how as an assumption, it literally imposes $\tau=0$ for all pre-treatment periods. 
-\item They argue that ``some form of this assumption is necessary for DiD identification'' because otherwise you don't have a reference period
-\item Even before Goodman-Bacon (2021), Sun and Abraham (2020) and Borusyak and Jaravel (2017), I had seen a million applied papers and only seen references to PT, not NA
-\item It's oftentimes treated as an implicit assumption that can be then tested using an event study, but they'll discuss that as that confuses estimation with identification
+\item Even before Goodman-Bacon (2021), Sun and Abraham (2020) and Borusyak and Jaravel (2016), I had seen a million applied papers and only seen references to PT, not NA
 \end{itemize}
 
 \end{frame}
@@ -171,9 +126,6 @@ If we can assume something like homogenous treatment effects, then TWFE actually
 
 \begin{frame}{Critique: Underidentification problem}
 
-We saw some of this earlier with SA, but mind you, there was simultaneous discoveries and a chronology. This result was in BJ, for whatever that is worth to you.
-
-\bigskip
 
 \textbf{Lemma 1}: If there are no never-treated units, the path of [pre-treatment lead population regression coefficients] is not point identified in the fully dynamic OLS specification.  In particular. adding a linear trend to this path $\{\tau_h + k(h+1) \}$ for any $k \in R$ fits the data equally well with the fixed effects coefficients appropriately modified.
 
@@ -202,9 +154,6 @@ Just one additional normalization is needed -- drop $\tau_{-a}=0$ and $\tau_{-1}
 \item Imposing any $-a$ lead and $-1$ lead to equal zero is somewhat ad hoc.  Why those two and not some other two?
 \item Recall with SA -- it mattered which ones you dropped because otherwise leads were contaminated
 \item This is again about NA -- if you chose $-a$ and $-1$, then you had some theoretical reason to assume NA held for them and not some other periods
-\item Researchers need an \emph{a priori} reason to justify which leads they drop ideally
-\item I had a great one -- Craigslist didn't announce or advertise or communicate intentions to enter markets before they did.  NA was guaranteed
-\item You may need to scrutinize this. 
 \end{itemize}
 
 \end{frame}
@@ -212,18 +161,6 @@ Just one additional normalization is needed -- drop $\tau_{-a}=0$ and $\tau_{-1}
 
 
 \begin{frame}{Negative weighting and violations of A3}
-
-
-Heterogeneous treatment effects creating problems \emph{again}
-\begin{itemize}
-\item It's assumption 3 -- homogeneity -- that BJS (and really the first paper, Borusyak and Jaravel) showed was a problem for traditional event studies
-\item And we saw that earlier with Sun and Abraham
-\item What happens is that with heterogeneity, the weights on the treatment effects can become negative
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Negative weighting}
 
 Assume some simple static model with a single dummy for treatment.  Then they lay out a second lemma
 
@@ -349,27 +286,6 @@ Using A1' to A4, we get the ``efficient estimator'' which is for all linear unbi
 \end{itemize}
 
 \end{frame}
-\begin{frame}{Testing for parallel trends}
-
-\begin{itemize}
-\item Perform pre-trend testing using untreated sample only
-\item This separation is preferable conceptually because it presents the conflation of using an identification assumption and validating it
-\item Traditional regression-based tests use the full sample, including the treated observations though
-\item Therefore it is not a test for A1 and A2; rather it is a joint test that is also sensitive to A3
-\item BJS test uses the untreated observations for which $Y_{it}^0$ is ok under A2
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Test}
-
-\begin{enumerate}
-\item Choose an alternative model for $Y_{it}^0$ richer than A1 $$Y_{it}^0 = A'_{it} \lambda_i + X_{it}' \beta + w_{it}' \delta + \tilde{\varepsilon}_{it}$$
-\item Estimate $\delta$ with $\widehat{\delta}$ using OLS on untreated units only
-\item Test $\delta=0$ using F-test or visually
-\end{enumerate}
-
-\end{frame}
 
 
 \begin{frame}{Comparisons to other estimators}
@@ -383,11 +299,9 @@ Using A1' to A4, we get the ``efficient estimator'' which is for all linear unbi
 \begin{frame}{Returning to the minimum wage}
 
 \begin{itemize}
-\item Now we can return to the minimum wage study from earlier (Clemens and Strain 2021)
-\item Recall that stacked regression had found large negative effects on employment when minimum wage increases were large, but not when they were small
-\item The authors also implemented the BJS imputation estimator
+\item Clemens and Strain (2021) implemented the BJS imputation estimator to estimate the effect of the minimum wage (post Great Recession) on employment
 \item One comment abt the following graphics: BJS procedure does not have a ``base'' period in the same sense as the regression models do because it is not contrasting each period relative to some omitted group
-\item Rather it is imputing counterfactuals, and therefore we can calculate each period's effect
+\item Since it is imputing counterfactuals, we can calculate each period's effect
 \end{itemize}
 
 \end{frame}
@@ -422,46 +336,29 @@ Using A1' to A4, we get the ``efficient estimator'' which is for all linear unbi
 
 \end{frame}
 
-\begin{frame}{Concluding remarks about the minimum wage study}
-
-Clemens and Strain (2021) illustrates three things: 
-
-\bigskip
-
-\begin{enumerate}
-\item Sometimes theory may predict heterogenous effects which requires researchers explore such theoretically motivated heterogeneity
-\item Since p-hacking is commonly associated with heterogeneity subsample analysis, we can partially protect against it through pre-registration 
-\item Robust DiD estimators should be used to double check for problems with TWFE when using DiD designs with differential timing
-\end{enumerate}
-
-\bigskip
-
-Reassuring that results are consistent across all models used.  Do not count the minimum wage debate to be finished.
-
-\end{frame}
-
-
 \subsection{2SDiD}
 
-\begin{frame}{2SDiD}
+\begin{frame}{Two Stage DiD}
 
-\begin{itemize}
-\item I'd like to go back to a more traditional form of analysis by reviewing Gardner (2021)
-\item Like a few other papers, Gardner (2021) is both a diagnosis of the illness and a cure, and I'm putting his cure into an explicit imputation framework
-\item John Gardner is an assistant professor and applied econometrician at University of Mississippi -- smart, cool, and former colleague of Brant Callaway of Callaway and Sant'Anna
-\item The cure will be nicely called two-stage difference-in-differences (2SDiD) -- Nice name!
-\end{itemize}
+\begin{quote}
+``It seems natural that TWFE should identify the ATT'' -- Gardner (2021)
+\end{quote}
+
+\bigskip
+
+It just seems like TWFE with a DiD will estimate the ATT with weights that we'll find intuitive.  Was this just a conjecture and was never true?  Why isn't this working?
 
 \end{frame}
 
-\begin{frame}{Highlights}
+
+
+\begin{frame}{Two Stage DiD}
 
 \begin{itemize}
 \item Why does TWFE fail under differential timing? Violates strict exogeneity under heterogeneity
 \item The logic of the failure suggests an obvious, but previously unknown, solution which is the 2SDiD
 \item I'll explain 2SDiD, focus on the parallel trends implications, and show we can get a consistent and unbiased estimate of group and relative time fixed effects
 \item If you can get consistent and unbiased estimates of group and relative time fixed effects, then you can delete them and run normal analysis
-\item We'll work through some code
 \end{itemize}
 
 \end{frame}
@@ -473,20 +370,7 @@ Reassuring that results are consistent across all models used.  Do not count the
 \item We've seen in the Goodman-Bacon decomposition why -- it's caused by TWFE implicitly calculating late to early 2x2s, which are a source of bias
 \item But some of you are coming straight from a panel econometrics course that maybe didn't use potential outcomes notation
 \item Isn't strict exogeneity enough for consistent estimates?  What then does strict exogeneity have to do with heterogeneity and differential timing?
-\item Everything
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}{More background}
-
-\begin{quote}
-``It seems natural that TWFE should identify the ATT'' -- Gardner (2021)
-\end{quote}
-
-\bigskip
-
-It just seems like TWFE with a DiD will estimate the ATT with weights that we'll find intuitive.  Was this just a conjecture and was never true?  Why isn't this working?
 
 \end{frame}
 
@@ -517,16 +401,10 @@ Spoiler: This analysis of the problem suggests solution -- why don't we remove t
 
 \begin{frame}{2SDiD}
 
-``What's the name of that kid from Mexico?'' -- Ted Lasso \\
-``Dani Rojas'' -- Nate the Great \\
-``Great name'' -- Ted Lasso
-
 \begin{itemize}
-\item Two stage DiD is a great name because of its connection to that classic IV model 2SLS
-\item If you can link it to 2SLS in your mind, it may help you because it'll show you that Gardner's model is a two stage model
 \item First stage -- estimate the group and relative time fixed effects using only the $D=0$ observations
 \item Second stage -- using predicted values based off those fixed effect coefficients, run your model off the transformed outcome 
-\item Get the standard errors right just like 2SLS by taking the first stage into account
+\item Get the standard errors right just like 2SLS by taking the first stage into account (uses GMM)
 \end{itemize}
 
 \end{frame}
@@ -535,9 +413,7 @@ Spoiler: This analysis of the problem suggests solution -- why don't we remove t
 
 \begin{itemize}
 \item The second step recovers the average difference in outcomes between treated and untreated units after removing group and period fixed effects
-\item What I like about Gardner's method is its pleasant familiarity, its speed
-\item But note, it's not going to allow you to do the kind of heterogeneity analysis that CS allows for
-\item Some of the differences will be due to slightly different PT assumptions, and some will because 2SDID will be using all of the data for analysis, not just the baseline for calculating the DID estimates
+\item Strong parallel trends assumption compared to CS and SA, but unclear if this is a big deal in general
 \end{itemize}
 
 \end{frame}

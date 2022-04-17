@@ -493,31 +493,30 @@ So let's see Gardner's solution, but note -- his solution was suggested by the p
 \beta^* = \sum_{g=1}^G \sum_{p=g}^P w_{gp}\beta_{gp}
 \end{eqnarray*}
 
-\item So then -- what are the weights $w_{gp}$?
-\item Groan -- It's a huge mess, and I hate even showing it to you because I find the weights almost impossible to decipher, but maybe you'll have a better go at it than me
+\item So then -- what are the weights $w_{gp}$?  They are variance weights 
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Weights}
+%\begin{frame}{Weights}
 
-\footnotesize
-\begin{eqnarray*}
-w_{gp} = \frac{ \bigg \{ [ 1-P(D_{gp}=1|g) ] - [P(D_{gp}=1|p) -  P(D_{gp}-1) ] \bigg \} P(g,p)}{
-\sum_{g=1}^G \sum_{p=g}^P \bigg \{ [ 1-P(D_{gp}=1 | g) ] - [P(D_{gp}=1 | p) - P(D_{gp}=1) ] \bigg \}P(g,p)}
-\end{eqnarray*}
+%\footnotesize
+%\begin{eqnarray*}
+%w_{gp} = \frac{ \bigg \{ [ 1-P(D_{gp}=1|g) ] - [P(D_{gp}=1|p) -  P(D_{gp}-1) ] \bigg \} P(g,p)}{
+%\sum_{g=1}^G \sum_{p=g}^P \bigg \{ [ 1-P(D_{gp}=1 | g) ] - [P(D_{gp}=1 | p) - P(D_{gp}=1) ] \bigg \}P(g,p)}
+%\end{eqnarray*}
 
-Terms: 
-\begin{itemize}
-\item $P(D_{gp}=1|p)$: share of units treated in period $p$
-\item $P(D_{gp}=1|g)$: share of periods in which $g$ is treated
-\item $P(D_{gp}=1)$: share of unit $\times$ time treated
-\item $P(g,p)$: population share of observation corresponding to group $g$ and period $p$
-\end{itemize}
+%Terms: 
+%\begin{itemize}
+%\item $P(D_{gp}=1|p)$: share of units treated in period $p$
+%\item $P(D_{gp}=1|g)$: share of periods in which $g$ is treated
+%\item $P(D_{gp}=1)$: share of unit $\times$ time treated
+%\item $P(g,p)$: population share of observation corresponding to group $g$ and period $p$
+%\end{itemize}
 
-I thought about changing all those probabilities into means, but honestly, it really didn't help me at all.  But Gardner notes that this is from theorem 1 of deChaisemartin and D'Haultfoeiller (2020) and his Appendix A
+%I thought about changing all those probabilities into means, but honestly, it really didn't help me at all.  But Gardner notes that this is from theorem 1 of deChaisemartin and D'Haultfoeiller (2020) and his Appendix A
 
-\end{frame}
+%\end{frame}
 
 
 \begin{frame}{Estimation}

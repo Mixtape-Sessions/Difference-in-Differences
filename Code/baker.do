@@ -104,7 +104,6 @@ gen y = firms + n + treat*te*(year - treat_date + 1) + e
 * Data generating process for parallel trends
 gen y0 = firms + n + e 
 
-
 * For group 1, the ATT in 1986 is 10
 * For group 1, the ATT in 1987 is 20
 * For group 1, the ATT in 1988 is 30 and so on
@@ -117,7 +116,6 @@ areg y2 i.year treat, a(id) robust
 * Estimation using TWFE - heterogenous treatment effects over time
 areg y i.year treat, a(id) robust 
 
-
 ** Sun and Abraham event study commentary
 * Leads and lags
 gen     time_til=year-treat_date
@@ -125,7 +123,7 @@ ta 		time_til, gen(dd)
 
 
 * Event study with heterogeneity, dropping two leads
-areg y i.year dd1 - dd20 dd22-dd23 dd25-dd48, a(id) robust 
+areg y i.year dd1 - dd20 dd22-dd23 dd25-dd48, a(id) cluster(state) 
 
 coefplot, keep(dd1 dd2 dd3 dd4 dd5 dd6 dd7 dd8 dd9 dd10 dd11 dd12 dd13 dd14 dd15 dd16 dd17 dd18 dd19 dd20 dd22 dd23 dd25 dd26 dd27 dd28 dd29 dd30 dd31 dd32 dd33 dd34 dd35 dd36 dd37 dd38 dd39 dd40 dd41 dd42) xlabel(, angle(vertical)) yline(0) vertical msymbol(D) mfcolor(white) ciopts(lwidth(*3) lcolor(*.6)) grid(between) mlabel format(%9.3f) mlabposition(12) mlabgap(*2) title(Baker simulation) 
 

@@ -39,9 +39,214 @@
 % ---- Content ----
 
 
-\section{Non-binary treatments}
+\section{Continuous DiD}
 
-\subsection{Fuzzy DiD}
+\subsection{Dose causal parameter}
+
+\begin{frame}{Continuous DiD}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.4]{./lecture_includes/continuous_did_image}
+\end{center}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Overview}
+
+\begin{enumerate}
+\item What of what we have learned carries forward to the continuous case?
+\item Some of the problems with continuous (maybe most) don't even have to do with differential timing, so I'm not going to cover it
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Framing the question}
+
+\begin{itemize}
+\item \textbf{ATT}: Extensive margin causal parameter.  Do this versus don't do this.
+\item \textbf{Dose}: Intensive margin causal parameter.  Do this much versus this much.
+\end{itemize}
+
+\bigskip
+
+The dose causal parameter will be based on Angrist and Imbens (1995)
+
+\end{frame}
+
+
+
+
+\begin{frame}{Parameters}
+
+\begin{block}{Average treated on the treated}
+$ATT(d|d) = E[Y^d_{it} - Y^0_{it} | D_{it}=d]$
+\end{block}
+
+\bigskip
+
+while the treatment, $D$, can be any amount, $d$, that amount is technically a particular dose.  We raised the minimum wage, but we raised it to a particular wage. 
+
+\end{frame}
+
+
+\begin{frame}{Parameters}
+
+\begin{block}{Average treated on the treated}
+$ATT(d|d) = E[Y^d_{it} - Y^0_{it} | D_{it}=d]$
+\end{block}
+
+\bigskip
+
+This is ``the ATT of $d$ for the groups that chose $d$ dosage'' which uses as its comparison no dose.
+
+\end{frame}
+
+\begin{frame}{ATT for a given dose}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.3]{./lecture_includes/acrt_fig1.png}
+\end{center}
+\end{figure}
+
+What is the effect of setting fees to \$100 versus nothing at all? It's ATT(\$100|a) for this city.
+
+
+\end{frame}
+
+\begin{frame}{ATT for a given dose}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.3]{./lecture_includes/acrt_fig1.png}
+\end{center}
+\end{figure}
+
+Assume city $a$ did choose $d=\$100$. Then ATT(\$50|a) just means that that is its ATT \emph{had} it chosen the lower level.  The curve, in other words, is tracing out all average causal response for this city.
+
+
+\end{frame}
+
+
+\begin{frame}{ATT for a given dose}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.3]{./lecture_includes/acrt_fig2.png}
+\end{center}
+\end{figure}
+
+What if everyone has different responses?  In other words, city $a$ has the higher curve than city $b$.  Then there are several comparisons possible.  What is the effect of \$50 on outcomes for cities that actually chose \$50 versus those than actually chose \$100?  We need a new building block than just the ATT.
+
+\end{frame}
+
+\begin{frame}{Average causal response function}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.3]{./lecture_includes/angrist_imbens_IV_intensity}
+\end{center}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Angrist and Imbens 1995}
+
+\begin{quote}
+``We refer to the parameter $\beta$ as the \textbf{average causal response (ACR)}. This parameter captures a weighed average causal responses to a unit change in treatment, for those whose treatment status is affected by the instrument. \dots ''
+\end{quote}
+
+\end{frame}
+
+\begin{frame}{Parameters}
+
+\begin{block}{Average treated on the treated}
+$ATT(d|d) = E[Y^d_{it} - Y^0_{it} | D_{it}=d]$
+\end{block}
+
+\bigskip
+
+Notice that this is sort of an extensive margin causal response, but that isn't the only causal concept we have.  Elasticities are causal, demand curves are causal, but they aren't based on comparisons to nothing -- they are intensive margin comparisons, local comparisons, adjacencies. Zero isn't the only counterfactual in other words.
+
+\end{frame}
+
+\begin{frame}{Average causal response for discrete case vs continuous}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.3]{./lecture_includes/acrt_fig3.png}
+\end{center}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{ACRT}
+
+\begin{itemize}
+\item Discrete/multi-valued treatment is linear difference between two ATTs for the same city
+\item Continuous treatment is the derivative of the function itself
+\end{itemize}
+
+\end{frame}
+
+\subsection{Identification}
+
+\begin{frame}{Identification for two period set up}
+
+\begin{enumerate}
+
+\item Random sampling.  
+\item No anticipation
+\item Parallel trends in $Y^0$ for units of all doses
+
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Identifying ATT}
+
+\begin{eqnarray*}
+E [ \Delta Y_{it} | D_i = d] - E[ \Delta Y_{it} | D_i = 0] &=& ATT
+\end{eqnarray*}
+
+\bigskip
+
+No anticipation and parallel trends converts this comparison of before and after into the ATT
+
+\end{frame}
+
+
+\begin{frame}{Identifying ACRT}
+
+
+\begin{eqnarray*}
+ATT(b|b) - ATT(a|a) &=& E [ \Delta Y_{it} | D_i=a] - E[\Delta Y_{it} | D_i=b]
+\end{eqnarray*}
+
+Comparing high and low dose groups.  Let's call them $d_j$ and $d_{j-1}$. 
+
+\end{frame}
+
+
+\begin{frame}{Bias and causality}
+
+\begin{figure}
+\begin{center}
+             \includegraphics[scale=0.3]{./lecture_includes/acrt_fig2.png}
+\end{center}
+\end{figure}
+
+Let me draw this.  When we 
+
+\end{frame}
+
+
+\section{Fuzzy DiD}
+
+
 
 
 

@@ -6,6 +6,11 @@
 # ------------------------------------------------------------------------------
 
 # load packages
+
+# install.packages("devtools")
+#devtools::install_github("bcallaway11/did")
+#install.packages(did, dependencies  = TRUE)
+
 library(readstata13)
 library(ggplot2)
 library(did) # Callaway & Sant'Anna
@@ -35,7 +40,7 @@ atts <- att_gt(yname = "y", # LHS variable
 # ------------------------------------------------------------------------------
 
 # Calculate group-time ATTs and overall ATT
-agg_effects <- aggte(atts, type = "simple", balance_e=TRUE)
+agg_effects <- aggte(atts, type = "group", balance_e=TRUE)
 summary(agg_effects)
 
 # Group-time ATTs
